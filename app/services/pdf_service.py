@@ -20,7 +20,7 @@ STATIC_DIR = os.path.join(
 
 # Find chromium binary
 CHROMIUM = None
-for path in ["/usr/bin/chromium-browser", "/usr/bin/chromium", "/usr/bin/google-chrome"]:
+for path in ["/usr/bin/google-chrome-stable", "/usr/bin/google-chrome", "/usr/bin/chromium-browser", "/usr/bin/chromium"]:
     if os.path.exists(path):
         CHROMIUM = path
         break

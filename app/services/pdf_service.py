@@ -1,7 +1,9 @@
-"""Generate A4 PDF from signed contract using weasyprint."""
+"""Generate A4 PDF from signed contract using headless Chromium."""
 
 import os
 import re
+import tempfile
+import subprocess
 import logging
 from app.services.contract_service import (
     format_datum, format_betrag,
@@ -16,9 +18,24 @@ STATIC_DIR = os.path.join(
     "static"
 )
 
+# Find chromium binary
+CHROMIUM = None
+for path in ["/usr/bin/chromium-browser", "/usr/bin/chromium", "/usr/bin/google-chrome"]:
+    if os.path.exists(path):
+        CHROMIUM = path
+        break
+
 
 def generate_signed_pdf(contract) -> bytes:
-    """Generate a signed A4 PDF from the contract data."""
+    """Generate a signed A4 PDF using headless Chromium.
+
+    Uses the original print-optimized template with proper @page CSS.
+    Chromium renders it exactly like a browser Cmd+P.
+    """
+    if not CHROMIUM:
+        logger.error("Chromium nicht gefunden. PDF wird nicht generiert.")
+        return None
+
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
@@ -53,7 +70,7 @@ def generate_signed_pdf(contract) -> bytes:
     for key, value in replacements.items():
         html = html.replace(key, value)
 
-    # Rewrite image paths to absolute file paths for weasyprint
+    # Rewrite image paths to absolute file paths
     assets_dir = os.path.join(STATIC_DIR, "assets")
     html = html.replace('src="assets/', 'src="file://%s/' % assets_dir)
 
@@ -90,200 +107,49 @@ def generate_signed_pdf(contract) -> bytes:
         flags=re.DOTALL,
     )
 
-    # Remove the cover background image entirely (mask-image not supported in weasyprint)
-    html = re.sub(
-        r'<img class="cover-bg"[^>]*>',
-        '',
-        html,
-    )
+    # Write HTML to temp file
+    with tempfile.NamedTemporaryFile(suffix=".html", delete=False, mode="w", encoding="utf-8") as f:
+        f.write(html)
+        html_path = f.name
 
-    # Remove all existing <style> and rebuild clean CSS for weasyprint
-    html = re.sub(r'<style>.*?</style>', '', html, flags=re.DOTALL)
+    pdf_path = html_path.replace(".html", ".pdf")
 
-    # Remove @media blocks and screen-only styles
-    # Remove box-shadow references
-
-    weasyprint_css = """<style>
-    @page { size: A4; margin: 0; }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 11pt;
-      line-height: 1.6;
-      color: #1F3B4D;
-      background: #EDE6DE;
-    }
-
-    .page {
-      width: 210mm;
-      padding: 45mm 30mm 35mm 30mm;
-      background: #EDE6DE;
-      position: relative;
-      page-break-before: always;
-      page-break-inside: avoid;
-    }
-    .page:first-child { page-break-before: auto; }
-
-    .page-cover {
-      display: block;
-      text-align: center;
-      padding-top: 80mm;
-      min-height: 297mm;
-    }
-
-    .logo {
-      position: absolute;
-      top: 25mm;
-      left: 30mm;
-      height: 28mm;
-      width: auto;
-    }
-
-    .cover-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 42pt;
-      color: #1F3B4D;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      line-height: 1.15;
-      margin-bottom: 15mm;
-    }
-
-    .cover-subtitle {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 14pt;
-      font-weight: 400;
-      color: #1F3B4D;
-      margin-bottom: 5mm;
-    }
-
-    .cover-tagline {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 11pt;
-      color: #8D5F4E;
-      margin-bottom: 20mm;
-    }
-
-    .cover-welcome {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 16pt;
-      color: #1F3B4D;
-      margin-top: 15mm;
-    }
-    .cover-welcome .name { color: #1F3B4D; font-weight: 400; }
-
-    .cover-footer {
-      position: absolute;
-      bottom: 25mm;
-      left: 30mm;
-      font-size: 9pt;
-      color: #8D5F4E;
-    }
-    .cover-footer a { color: #8D5F4E; text-decoration: none; }
-
-    h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 18pt;
-      text-transform: uppercase;
-      color: #1F3B4D;
-      letter-spacing: 1.5px;
-      margin-bottom: 8mm;
-    }
-
-    h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 13pt;
-      text-transform: uppercase;
-      color: #1F3B4D;
-      letter-spacing: 1px;
-      margin-top: 8mm;
-      margin-bottom: 4mm;
-    }
-
-    p {
-      margin-bottom: 3mm;
-      text-align: justify;
-    }
-
-    .parties { margin: 6mm 0; }
-    .party { margin-bottom: 5mm; }
-    .party-name { font-weight: 700; font-size: 12pt; }
-    .party-role { font-style: italic; color: #8D5F4E; margin-top: 2mm; }
-    .party-und { text-align: center; margin: 4mm 0; color: #8D5F4E; }
-
-    .highlight { font-weight: 700; }
-
-    ul { margin: 3mm 0 3mm 6mm; list-style: none; }
-    ul li { padding-left: 4mm; position: relative; margin-bottom: 1.5mm; }
-    ul li::before { content: "–"; position: absolute; left: -2mm; color: #8D5F4E; }
-
-    .cta {
-      text-align: left;
-      margin-top: 10mm;
-      margin-bottom: 2mm;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 12pt;
-      color: #1F3B4D;
-    }
-
-    .separator {
-      border: none;
-      border-top: 0.5pt solid #8D5F4E;
-      margin: 4mm 0;
-      opacity: 0.4;
-    }
-
-    .page-number {
-      position: absolute;
-      bottom: 20mm;
-      right: 30mm;
-      font-size: 9pt;
-      color: #8D5F4E;
-    }
-
-    .page-logo {
-      position: absolute;
-      top: 20mm;
-      left: 30mm;
-      height: 20mm;
-      width: auto;
-    }
-
-    .anlage-header {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 9pt;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #8D5F4E;
-      margin-bottom: 6mm;
-    }
-
-    .anlage-stand {
-      font-size: 10pt;
-      color: #8D5F4E;
-      margin-bottom: 5mm;
-    }
-    </style>"""
-
-    html = html.replace('</head>', weasyprint_css + '\n</head>')
-
-    # Generate PDF
     try:
-        from weasyprint import HTML
-    except OSError:
-        logger.error("weasyprint nicht verfügbar. PDF wird nicht generiert.")
-        return None
+        result = subprocess.run(
+            [
+                CHROMIUM,
+                "--headless",
+                "--disable-gpu",
+                "--no-sandbox",
+                "--print-to-pdf=%s" % pdf_path,
+                "--no-pdf-header-footer",
+                "file://%s" % html_path,
+            ],
+            capture_output=True,
+            timeout=30,
+        )
 
-    pdf_bytes = HTML(string=html).write_pdf()
-    logger.info(
-        "PDF generiert fuer %s %s (%d bytes)",
-        contract.vorname, contract.nachname, len(pdf_bytes)
-    )
-    return pdf_bytes
+        if os.path.exists(pdf_path):
+            with open(pdf_path, "rb") as f:
+                pdf_bytes = f.read()
+            logger.info(
+                "PDF generiert fuer %s %s (%d bytes)",
+                contract.vorname, contract.nachname, len(pdf_bytes)
+            )
+            return pdf_bytes
+        else:
+            logger.error("PDF nicht erstellt. Chromium stderr: %s", result.stderr.decode())
+            return None
+    except subprocess.TimeoutExpired:
+        logger.error("Chromium timeout bei PDF-Generierung")
+        return None
+    except Exception as e:
+        logger.error("PDF-Fehler: %s", str(e))
+        return None
+    finally:
+        # Cleanup temp files
+        for p in [html_path, pdf_path]:
+            try:
+                os.unlink(p)
+            except OSError:
+                pass

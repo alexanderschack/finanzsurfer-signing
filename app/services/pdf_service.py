@@ -118,19 +118,19 @@ def generate_signed_pdf(contract) -> bytes:
 
     .page {
       width: 210mm;
-      height: 297mm;
       padding: 45mm 30mm 35mm 30mm;
       background: #EDE6DE;
       position: relative;
-      overflow: hidden;
-      page-break-after: always;
+      page-break-before: always;
+      page-break-inside: avoid;
     }
-    .page:last-child { page-break-after: auto; }
+    .page:first-child { page-break-before: auto; }
 
     .page-cover {
       display: block;
       text-align: center;
       padding-top: 80mm;
+      min-height: 297mm;
     }
 
     .logo {

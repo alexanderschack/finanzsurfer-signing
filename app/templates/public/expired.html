@@ -1,0 +1,28 @@
+{% extends "base_public.html" %}
+{% block title %}Link ungültig{% endblock %}
+{% block content %}
+<div style="max-width: 500px; margin: 100px auto; text-align: center; padding: 0 20px;">
+  <img src="/static/assets/logo-dark.png" alt="Finanzsurfer" style="height: 50px; margin-bottom: 30px;">
+
+  {% if reason == "expired" %}
+    <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20pt; color: #1F3B4D; margin-bottom: 16px;">
+      Link abgelaufen
+    </h1>
+    <p style="color: #8D5F4E; line-height: 1.6;">
+      Dieser Vertragslink ist leider abgelaufen.<br>
+      Bitte kontaktiere Alex unter
+      <a href="mailto:alex@finanz-surfer.de" style="color: #1F3B4D;">alex@finanz-surfer.de</a>
+      für einen neuen Link.
+    </p>
+  {% else %}
+    <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20pt; color: #1F3B4D; margin-bottom: 16px;">
+      Link nicht gefunden
+    </h1>
+    <p style="color: #8D5F4E; line-height: 1.6;">
+      Dieser Vertragslink existiert nicht.<br>
+      Bitte prüfe den Link oder kontaktiere
+      <a href="mailto:alex@finanz-surfer.de" style="color: #1F3B4D;">alex@finanz-surfer.de</a>.
+    </p>
+  {% endif %}
+</div>
+{% endblock %}

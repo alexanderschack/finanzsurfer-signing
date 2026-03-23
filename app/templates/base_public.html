@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Mentoring-Vertrag{% endblock %} — Finanzsurfer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #1F3B4D;
+      background: #EDE6DE;
+      min-height: 100vh;
+    }
+    .public-footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 10pt;
+      color: #8D5F4E;
+    }
+    .public-footer a { color: #8D5F4E; text-decoration: none; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% block content %}{% endblock %}
+  <div class="public-footer">
+    Finance Flow | Alexander Schack · <a href="https://www.finanz-surfer.de">www.finanz-surfer.de</a>
+  </div>
+</body>
+</html>

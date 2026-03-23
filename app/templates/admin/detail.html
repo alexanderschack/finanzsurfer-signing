@@ -1,0 +1,55 @@
+{% extends "base_admin.html" %}
+{% block title %}Vertrag {{ contract.full_name }}{% endblock %}
+{% block content %}
+<h1>Vertrag: {{ contract.full_name }}</h1>
+
+<div class="detail-grid">
+  <div class="card">
+    <h2>Status</h2>
+    {% if contract.status == "signed" %}
+      <span class="pill pill-success" style="font-size: 16px;">Unterschrieben</span>
+      <p style="margin-top: 12px;">
+        <strong>Name:</strong> {{ contract.signed_name }}<br>
+        <strong>Datum:</strong> {{ contract.signed_at[:19] }}<br>
+        <strong>IP:</strong> {{ contract.signed_ip }}<br>
+      </p>
+    {% elif contract.is_expired %}
+      <span class="pill pill-muted" style="font-size: 16px;">Abgelaufen</span>
+    {% else %}
+      <span class="pill pill-warning" style="font-size: 16px;">Offen — wartet auf Unterschrift</span>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Vertragslink</h2>
+    <div class="link-box">
+      <input type="text" value="{{ sign_url }}" id="sign-url" readonly style="width: 100%; font-size: 13px;">
+      <button onclick="navigator.clipboard.writeText(document.getElementById('sign-url').value); this.textContent='Kopiert!'; setTimeout(()=>this.textContent='Link kopieren', 2000);" class="btn btn-sm" style="margin-top: 8px;">Link kopieren</button>
+    </div>
+    <p style="font-size: 12px; color: #8D5F4E; margin-top: 8px;">
+      Gültig bis: {{ contract.expires_at[:10] }}
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Konditionen</h2>
+    <p>
+      <strong>Betrag:</strong> {{ "{:,.0f}".format(contract.betrag_gesamt).replace(",", ".") }} EUR brutto<br>
+      {% if contract.raten > 0 %}
+        <strong>Zahlung:</strong> {{ contract.raten }} Raten à {{ "{:,.0f}".format(contract.rate).replace(",", ".") }} EUR<br>
+      {% else %}
+        <strong>Zahlung:</strong> Einmalzahlung<br>
+      {% endif %}
+      <strong>Start:</strong> {{ contract.startdatum }}<br>
+      <strong>Laufzeit:</strong> {{ contract.wochen }} Wochen<br>
+      {% if contract.bonus %}
+        <strong>Bonus:</strong> {{ contract.bonus }}<br>
+      {% endif %}
+    </p>
+  </div>
+</div>
+
+<div style="margin-top: 30px;">
+  <a href="/admin/contracts" class="btn">&larr; Zurück zur Übersicht</a>
+</div>
+{% endblock %}

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentoring-Vertrag – Financial Flow Mentoring</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #1F3B4D;
+    background: #EDE6DE;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 45mm 30mm 35mm 30mm;
+    background: #EDE6DE;
+    position: relative;
+    page-break-after: always;
+  }
+
+  .page-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 60mm;
+    overflow: hidden;
+  }
+
+  .cover-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 55%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.3;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.6) 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.6) 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .logo {
+    position: absolute;
+    top: 25mm;
+    left: 30mm;
+    height: 28mm;
+    width: auto;
+  }
+
+  .cover-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 42pt;
+    color: #1F3B4D;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.15;
+    margin-bottom: 15mm;
+  }
+
+  .cover-subtitle {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 14pt;
+    font-weight: 400;
+    color: #1F3B4D;
+    margin-bottom: 5mm;
+  }
+
+  .cover-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    font-style: normal;
+    color: #8D5F4E;
+    margin-bottom: 20mm;
+  }
+
+  .cover-welcome {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16pt;
+    color: #1F3B4D;
+    margin-top: 15mm;
+  }
+  .cover-welcome .name { color: #1F3B4D; font-weight: 400; }
+
+  .cover-footer {
+    position: absolute;
+    bottom: 25mm;
+    left: 30mm;
+    font-size: 9pt;
+    color: #8D5F4E;
+  }
+  .cover-footer a { color: #8D5F4E; text-decoration: none; }
+
+  /* Content pages */
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18pt;
+    text-transform: uppercase;
+    color: #1F3B4D;
+    letter-spacing: 1.5px;
+    margin-bottom: 8mm;
+  }
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 13pt;
+    text-transform: uppercase;
+    color: #1F3B4D;
+    letter-spacing: 1px;
+    margin-top: 8mm;
+    margin-bottom: 4mm;
+  }
+
+  p {
+    margin-bottom: 3mm;
+    text-align: justify;
+  }
+
+  .parties {
+    margin: 6mm 0;
+  }
+  .party {
+    margin-bottom: 5mm;
+  }
+  .party-name {
+    font-weight: 700;
+    font-size: 12pt;
+  }
+  .party-role {
+    font-style: italic;
+    color: #8D5F4E;
+    margin-top: 2mm;
+  }
+  .party-und {
+    text-align: center;
+    margin: 4mm 0;
+    color: #8D5F4E;
+  }
+
+  .highlight {
+    font-weight: 700;
+  }
+
+  ul {
+    margin: 3mm 0 3mm 6mm;
+    list-style: none;
+  }
+  ul li {
+    padding-left: 4mm;
+    position: relative;
+    margin-bottom: 1.5mm;
+  }
+  ul li::before {
+    content: "–";
+    position: absolute;
+    left: -2mm;
+    color: #8D5F4E;
+  }
+
+  .signature-block {
+    margin-top: 2mm;
+    display: flex;
+    justify-content: space-between;
+    gap: 20mm;
+  }
+  .signature {
+    flex: 1;
+  }
+  .signature-label {
+    font-size: 9pt;
+    color: #8D5F4E;
+    margin-bottom: 2mm;
+  }
+  .signature-line {
+    border-bottom: 1.5pt solid #8D5F4E;
+    height: 15mm;
+  }
+  .signature-desc {
+    font-size: 9pt;
+    color: #8D5F4E;
+    margin-top: 1mm;
+  }
+
+  .cta {
+    text-align: left;
+    margin-top: 10mm;
+    margin-bottom: 2mm;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+    color: #1F3B4D;
+  }
+
+  .closing {
+    text-align: center;
+    margin-top: 15mm;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 14pt;
+    font-style: italic;
+    color: #1F3B4D;
+  }
+  .closing .name { color: #1F3B4D; font-weight: 400; font-style: italic; }
+
+  .page-number {
+    position: absolute;
+    bottom: 20mm;
+    right: 30mm;
+    font-size: 9pt;
+    color: #8D5F4E;
+  }
+
+  .page-logo {
+    position: absolute;
+    top: 20mm;
+    left: 30mm;
+    height: 20mm;
+    width: auto;
+  }
+
+  .anlage-header {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8D5F4E;
+    margin-bottom: 6mm;
+  }
+
+  .anlage-stand {
+    font-size: 10pt;
+    color: #8D5F4E;
+    margin-bottom: 5mm;
+  }
+
+  .separator {
+    border: none;
+    border-top: 0.5pt solid #8D5F4E;
+    margin: 4mm 0;
+    opacity: 0.4;
+  }
+
+  @media print {
+    body { background: #EDE6DE; }
+    .page { margin: 0; box-shadow: none; }
+  }
+  @media screen {
+    .page {
+      margin: 10mm auto;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- SEITE 1: Cover -->
+<div class="page page-cover">
+  <img class="logo" src="assets/Logo 500x200.png" alt="Finanzsurfer">
+  <div class="cover-title">Mentoring<br>Vertrag</div>
+  <div class="cover-subtitle">Financial Flow Mentoring</div>
+  <div class="cover-tagline">Dein Weg zur souveränen Unternehmerin in deinen Finanzen.</div>
+  <div class="cover-welcome">Willkommen im Line-up, <span class="name">{{VORNAME}}</span>!</div>
+  <img class="cover-bg" src="assets/surfer.jpg" alt="" onerror="this.style.display='none'">
+  <div class="cover-footer">
+    Finance Flow | Alexander Schack<br>
+    <a href="https://www.finanz-surfer.de">www.finanz-surfer.de</a>
+  </div>
+</div>
+
+<!-- SEITE 2: Parteien + §1 + §2 -->
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <h1>Mentoring-Vertrag</h1>
+
+  <p>Dieser Mentoring-Vertrag wird geschlossen zwischen</p>
+
+  <div class="parties">
+    <div class="party">
+      <div class="party-name">{{VORNAME}} {{NACHNAME}}</div>
+      <div>{{STRASSE}}</div>
+      <div>{{PLZ_ORT}}</div>
+      <div>Mail: {{EMAIL}}</div>
+      <div>Mobil: {{MOBIL}}</div>
+      <div class="party-role">– im Folgenden „Mentee" genannt –</div>
+    </div>
+
+    <div class="party-und">und</div>
+
+    <div class="party">
+      <div class="party-name">Finance Flow | Alexander Schack</div>
+      <div>Weidengrund 76</div>
+      <div>18059 Rostock</div>
+      <div>Mail: alex@finanz-surfer.de</div>
+      <div>Mobil: +49 151 52531347</div>
+      <div class="party-role">– im Folgenden „Mentor" genannt –</div>
+    </div>
+  </div>
+
+  <hr class="separator">
+
+  <h2>§1 Vertragsgegenstand</h2>
+  <p>Gegenstand des Vertrags ist das Mentoring-Programm „Financial Flow Mentoring". Es handelt sich um ein individuelles 1:1-Mentoring über 7 Module im Zeitraum von ca. {{WOCHEN}} Wochen mit Fokus auf Business-Finanzen.</p>
+
+  <hr class="separator">
+
+  <h2>§2 Umfang der Leistung</h2>
+  <p>Das Mentoring umfasst folgende individuell erbrachte Leistungen (gemäß dem Angebot):</p>
+  <ul>
+    <li>7 persönliche Zoom-Calls à 60–90 Min. (1 Call pro Modul + Abschluss)</li>
+    {{BONUS_ZEILE}}
+    <li>Zugang zu einem digitalen Mitgliederbereich (Videos, Workbook „Flow Guide", Tools)</li>
+    <li>Tools: insb. Finanzsurfer-Dashboard</li>
+    <li>Impulse &amp; Meditationen zur Integration</li>
+    <li>Persönlicher WhatsApp-Support (werktags, Antwort innerhalb 48 h)</li>
+    <li>1:1-Begleitung über die gesamte Programmlaufzeit mit individuellem Mentoring-Charakter</li>
+  </ul>
+  <p>Die Inhalte und Bausteine orientieren sich am regulären Angebot, können jedoch auf die individuellen Bedarfe der Mentee angepasst werden. Ein Anspruch auf bestimmte Tools oder Module besteht nicht.</p>
+
+  <div class="page-number">Seite 2 von 4</div>
+</div>
+
+<!-- SEITE 3: §3 + §4 + §5 -->
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <h2>§3 Zahlungsbedingungen</h2>
+  <p>Die Teilnahmegebühr beträgt <span class="highlight">{{BETRAG_GESAMT}} EUR brutto</span> (inkl. gesetzl. USt.).</p>
+  {{ZAHLUNGS_BLOCK}}
+
+  <hr class="separator">
+
+  <h2>§4 Eigenverantwortung und Haftung</h2>
+  <p>Die Mentee erkennt an, dass der Erfolg des Mentorings maßgeblich von ihrer aktiven Mitwirkung abhängt und das Programm keine Garantie für konkrete unternehmerische oder finanzielle Ergebnisse bietet.</p>
+  <p>Die im Mentoring bereitgestellten Inhalte, Impulse und Tools dienen ausschließlich der Orientierung und ersetzen keine individuelle Steuer-, Rechts- oder Anlageberatung.</p>
+  <p>Die Nutzung aller Inhalte und Tools erfolgt auf eigene Verantwortung der Mentee. Auch bei sorgfältiger Anwendung kann es zu Fehleinschätzungen kommen – insbesondere, wenn steuerliche oder rechtliche Aspekte betroffen sind. Für verbindliche Auskünfte ist ausschließlich ein:e Steuerberater:in, Rechtsanwält:in oder Anlageberater:in hinzuzuziehen.</p>
+
+  <hr class="separator">
+
+  <h2>§5 Beginn und Dauer</h2>
+  <p>Das Mentoring beginnt am <span class="highlight">{{STARTDATUM}}</span> mit dem Kick-off-Call und endet nach Abschluss aller 7 Module (ca. {{WOCHEN}} Wochen nach Beginn).</p>
+
+  <div class="page-number">Seite 3 von 4</div>
+</div>
+
+<!-- SEITE 4: §6 + §7 + §8 + §9 + Unterschriften -->
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <h2>§6 Widerrufsrecht für Verbraucher:innen</h2>
+  <p>Sofern die Mentee Verbraucherin im Sinne des § 13 BGB ist, steht ihr ein Widerrufsrecht von 14 Tagen ab Vertragsschluss zu. Sofern die Mentee den Start des Mentorings vor Ablauf der Widerrufsfrist wünscht, bestätigt sie ausdrücklich, dass ihr Widerrufsrecht bei vollständiger Leistungserbringung erlischt (§ 356 Abs. 4 BGB).</p>
+  <p>Sofern die Mentee im Rahmen ihrer gewerblichen oder selbstständigen Tätigkeit handelt (Unternehmerin i. S. d. § 14 BGB), besteht kein gesetzliches Widerrufsrecht.</p>
+
+  <hr class="separator">
+
+  <h2>§7 Datenschutz</h2>
+  <p>Im Rahmen des Mentorings werden personenbezogene Daten verarbeitet, insbesondere über das Finanzsurfer-Dashboard. Die Datenschutzbestimmungen sind diesem Vertrag als Anlage beigefügt. Mit Unterzeichnung dieses Vertrags bestätigt die Mentee, diese zur Kenntnis genommen zu haben.</p>
+
+  <hr class="separator">
+
+  <h2>§8 Verweis auf AGB</h2>
+  <p>Ergänzend gelten die Allgemeinen Geschäftsbedingungen (AGB) von Finance Flow | Alexander Schack in ihrer jeweils aktuellen Fassung. Diese sind diesem Vertrag als Anlage 1 beigefügt.</p>
+
+  <hr class="separator">
+
+  <h2>§9 Schlussbestimmungen</h2>
+  <p>Der Vertrag unterliegt deutschem Recht. Sollten einzelne Bestimmungen unwirksam sein, bleibt der Vertrag im Übrigen wirksam.</p>
+
+  <div class="cta">Yes, ich will meine Finanzen surfen!</div>
+
+  <div class="signature-block">
+    <div class="signature">
+      <div class="signature-line"></div>
+      <div class="signature-desc">Ort, Datum</div>
+      <div class="signature-line" style="margin-top: 10mm;"></div>
+      <div class="signature-desc">Unterschrift Mentee</div>
+    </div>
+    <div class="signature">
+      <div class="signature-line"></div>
+      <div class="signature-desc">Ort, Datum</div>
+      <div class="signature-line" style="margin-top: 10mm;"></div>
+      <div class="signature-desc">Unterschrift Mentor</div>
+    </div>
+  </div>
+
+  <div class="closing">Ich freue mich auf deine Transformationswelle,<br>liebe <span class="name">{{VORNAME}}</span>!</div>
+
+  <div class="page-number">Seite 4 von 4</div>
+</div>
+
+<!-- ANLAGE 1: AGB (Seite 5–7) -->
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <div class="anlage-header">Anlage 1 zum Mentoring-Vertrag</div>
+
+  <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
+  <p class="anlage-stand">Stand: März 2026</p>
+
+  <p>Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle entgeltlichen und unentgeltlichen Angebote von Finance Flow | Alexander Schack, Weidengrund 76, 18059 Rostock (nachfolgend „Anbieter" genannt), insbesondere für Coaching-, Mentoring-, Beratungsangebote, digitale Produkte (wie z.&nbsp;B. Tools, Workbooks, Mini-Kurse) sowie Freebies, sofern keine abweichenden Regelungen getroffen wurden. Je nach Art des konkreten Angebots können einzelne Regelungen dieser AGB sinngemäß gelten oder entfallen, insbesondere Regelungen zu Zahlung, Vertragslaufzeit oder Widerrufsrecht.</p>
+
+  <hr class="separator">
+
+  <h2>§1 Geltungsbereich</h2>
+  <p>Diese AGB gelten für alle Vertragsbeziehungen zwischen dem Anbieter und seinen Kund:innen im Zusammenhang mit den oben genannten Leistungen, unabhängig davon, ob sie entgeltlich oder unentgeltlich erbracht werden. Für bestimmte Produkte (z.&nbsp;B. Freebies oder rein digitale Tools ohne persönliche Leistung) finden einzelne Regelungen, wie z.&nbsp;B. Zahlungsbedingungen oder das Widerrufsrecht, keine Anwendung. Diese AGB gelten auch für künftige Angebote und Programme des Anbieters, soweit nicht ausdrücklich abweichende Regelungen getroffen werden.</p>
+
+  <hr class="separator">
+
+  <h2>§2 Vertragsgegenstand</h2>
+  <p>Der Anbieter bietet Coaching-, Mentoring- und Beratungsleistungen sowie digitale Produkte an. Art und Umfang der konkreten Leistung ergeben sich aus dem jeweiligen Angebot.</p>
+
+  <hr class="separator">
+
+  <h2>§3 Zahlungsbedingungen</h2>
+  <p>Für entgeltliche Leistungen gilt der im Angebot bzw. Vertrag ausgewiesene Preis. Sofern im jeweiligen Vertrag keine abweichende Regelung getroffen wurde, ist der Betrag innerhalb von 14 Tagen nach Rechnungsstellung zur Zahlung fällig. Bei Ratenzahlung gelten die im jeweiligen Vertrag vereinbarten Beträge und Fälligkeiten. Bei kostenlosen Angeboten (z.&nbsp;B. Freebies) entfällt diese Regelung.</p>
+
+  <hr class="separator">
+
+  <h2>§4 Widerrufsrecht</h2>
+  <p>Verbraucher:innen im Sinne des § 13 BGB steht bei entgeltlichen Leistungen grundsätzlich ein Widerrufsrecht von 14 Tagen ab Vertragsschluss zu. Bei digitalen Inhalten oder Online-Programmen kann dieses vorzeitig erlöschen, wenn die Leistung vollständig erbracht wurde oder die Kund:in der sofortigen Ausführung ausdrücklich zugestimmt hat (§ 356 Abs. 4 BGB).</p>
+  <p>Sofern die Kund:in im Rahmen ihrer gewerblichen oder selbstständigen Tätigkeit handelt (Unternehmer:in i.&nbsp;S.&nbsp;d. § 14 BGB), besteht kein gesetzliches Widerrufsrecht.</p>
+
+  <hr class="separator">
+
+  <h2>§5 Haftung und Eigenverantwortung</h2>
+  <p>Alle Angebote, Inhalte und bereitgestellten Tools dienen ausschließlich der allgemeinen Information und Orientierung und stellen ausdrücklich keine Steuer-, Rechts- oder Anlageberatung dar.</p>
+  <p>Die Anwendung erfolgt auf eigene Verantwortung des Kunden. Auch bei korrekter Anwendung kann keine Garantie für Richtigkeit, Vollständigkeit oder die Eignung für individuelle Zwecke übernommen werden.</p>
+  <p>Der Kunde trifft alle unternehmerischen und finanziellen Entscheidungen eigenverantwortlich. Eine Haftung des Anbieters für daraus resultierende wirtschaftliche, rechtliche oder sonstige Folgen ist ausgeschlossen – es sei denn, es liegt Vorsatz oder grobe Fahrlässigkeit vor.</p>
+
+  <div class="page-number">Anlage 1 – Seite 1 von 2</div>
+</div>
+
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <h2>§6 Vertraulichkeit</h2>
+  <p>Beide Parteien verpflichten sich, alle im Rahmen der Zusammenarbeit bekannt gewordenen Informationen, Unterlagen und Daten vertraulich zu behandeln und nicht an Dritte weiterzugeben. Diese Pflicht bleibt auch nach Beendigung der Zusammenarbeit bestehen.</p>
+
+  <hr class="separator">
+
+  <h2>§7 Nutzungsrechte</h2>
+  <p>Alle Inhalte, Unterlagen und digitalen Produkte (z.&nbsp;B. Workbook, Tools, Videos), die im Rahmen eines Programms oder Produkts zur Verfügung gestellt werden, sind urheberrechtlich geschützt. Die Mentee erhält ein einfaches, nicht übertragbares Nutzungsrecht zur ausschließlich persönlichen Verwendung. Eine Weitergabe, Vervielfältigung oder öffentliche Nutzung – auch auszugsweise – ist nicht gestattet, es sei denn, es wurde schriftlich etwas anderes vereinbart.</p>
+
+  <hr class="separator">
+
+  <h2>§8 Datenschutz</h2>
+  <p>Der Anbieter verarbeitet personenbezogene Daten im Rahmen der Vertragserfüllung und gesetzlicher Pflichten. Soweit digitale Tools (insb. das Finanzsurfer-Dashboard) zum Einsatz kommen, gelten die beigefügten Datenschutzbestimmungen (Anlage 2). Die Kund:in wird gebeten, diese vor Nutzung zur Kenntnis zu nehmen.</p>
+
+  <hr class="separator">
+
+  <h2>§9 Kündigung / Abbruch</h2>
+  <p>Verträge über Programme mit festgelegter Dauer (z.&nbsp;B. das Financial Flow Mentoring) sind grundsätzlich verbindlich und können nicht ordentlich gekündigt werden. Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt. Bricht der Kunde das Programm freiwillig vorzeitig ab, besteht kein Anspruch auf (Teil-)Erstattung der Teilnahmegebühr.</p>
+
+  <hr class="separator">
+
+  <h2>§10 Schlussbestimmungen</h2>
+  <p>Es gilt deutsches Recht. Gerichtsstand ist Rostock, sofern rechtlich zulässig. Sollten einzelne Regelungen unwirksam sein, bleibt der Vertrag im Übrigen wirksam.</p>
+
+  <div class="page-number">Anlage 1 – Seite 2 von 2</div>
+</div>
+
+<!-- ANLAGE 2: Datenschutzerklärung (Seite 8–11) -->
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <div class="anlage-header">Anlage 2 zum Mentoring-Vertrag</div>
+
+  <h1>Datenschutzerklärung</h1>
+  <p class="anlage-stand">Finanzsurfer-Dashboard (app.finanz-surfer.de)</p>
+
+  <h2>1. Datenschutz auf einen Blick</h2>
+  <p><strong>Allgemeine Hinweise</strong></p>
+  <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen Sie unserer unter diesem Text aufgeführten Datenschutzerklärung.</p>
+
+  <p><strong>Datenerfassung auf dieser Website</strong></p>
+  <p><em>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</em><br>
+  Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle" in dieser Datenschutzerklärung entnehmen.</p>
+
+  <p><em>Wie erfassen wir Ihre Daten?</em><br>
+  Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z.&nbsp;B. um Daten handeln, die Sie in ein Kontaktformular eingeben. Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z.&nbsp;B. Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch, sobald Sie diese Website betreten.</p>
+
+  <p><em>Wofür nutzen wir Ihre Daten?</em><br>
+  Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden. Sofern über die Website Verträge geschlossen oder angebahnt werden können, werden die übermittelten Daten auch für Vertragsangebote, Bestellungen oder sonstige Auftragsanfragen verarbeitet.</p>
+
+  <p><em>Welche Rechte haben Sie bezüglich Ihrer Daten?</em><br>
+  Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können Sie diese Einwilligung jederzeit für die Zukunft widerrufen. Außerdem haben Sie das Recht, unter bestimmten Umständen die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen. Des Weiteren steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.</p>
+
+  <div class="page-number">Anlage 2 – Seite 1 von 4</div>
+</div>
+
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <h2>2. Hosting</h2>
+  <p><strong>Hetzner</strong></p>
+  <p>Anbieter ist die Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen (nachfolgend Hetzner). Details entnehmen Sie der Datenschutzerklärung von Hetzner: https://www.hetzner.com/de/legal/privacy-policy/.</p>
+  <p>Die Verwendung von Hetzner erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an einer möglichst zuverlässigen Darstellung unserer Website.</p>
+  <p><strong>Auftragsverarbeitung:</strong> Wir haben einen Vertrag über Auftragsverarbeitung (AVV) zur Nutzung des oben genannten Dienstes geschlossen. Hierbei handelt es sich um einen datenschutzrechtlich vorgeschriebenen Vertrag, der gewährleistet, dass dieser die personenbezogenen Daten unserer Websitebesucher nur nach unseren Weisungen und unter Einhaltung der DSGVO verarbeitet.</p>
+
+  <hr class="separator">
+
+  <h2>3. Allgemeine Hinweise und Pflichtinformationen</h2>
+  <p><strong>Datenschutz</strong></p>
+  <p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.</p>
+
+  <p><strong>Hinweis zur verantwortlichen Stelle</strong></p>
+  <p>Finance Flow | Alexander Schack<br>Weidengrund 76, 18059 Rostock<br>Telefon: +49 151 52531347<br>E-Mail: alex@finanz-surfer.de</p>
+
+  <p><strong>Speicherdauer</strong></p>
+  <p>Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt. Wenn Sie ein berechtigtes Löschersuchen geltend machen oder eine Einwilligung zur Datenverarbeitung widerrufen, werden Ihre Daten gelöscht, sofern wir keine anderen rechtlich zulässigen Gründe für die Speicherung Ihrer personenbezogenen Daten haben (z.&nbsp;B. steuer- oder handelsrechtliche Aufbewahrungsfristen); im letztgenannten Fall erfolgt die Löschung nach Fortfall dieser Gründe.</p>
+
+  <p><strong>Rechtsgrundlagen der Datenverarbeitung</strong></p>
+  <p>Sofern Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir Ihre personenbezogenen Daten auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO. Sind Ihre Daten zur Vertragserfüllung oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, verarbeiten wir Ihre Daten auf Grundlage des Art. 6 Abs. 1 lit. b DSGVO. Des Weiteren verarbeiten wir Ihre Daten, sofern diese zur Erfüllung einer rechtlichen Verpflichtung erforderlich sind, auf Grundlage von Art. 6 Abs. 1 lit. c DSGVO. Die Datenverarbeitung kann ferner auf Grundlage unseres berechtigten Interesses nach Art. 6 Abs. 1 lit. f DSGVO erfolgen.</p>
+
+  <p><strong>Ihre Rechte</strong></p>
+  <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu. Hierzu sowie zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit an uns wenden.</p>
+
+  <div class="page-number">Anlage 2 – Seite 2 von 4</div>
+</div>
+
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <p><strong>SSL- bzw. TLS-Verschlüsselung</strong></p>
+  <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</p>
+
+  <hr class="separator">
+
+  <h2>4. Datenerfassung auf dieser Website</h2>
+  <p><strong>Cookies</strong></p>
+  <p>Unsere Internetseiten verwenden so genannte „Cookies". Cookies sind kleine Datenpakete und richten auf Ihrem Endgerät keinen Schaden an. Sie werden entweder vorübergehend für die Dauer einer Sitzung (Session-Cookies) oder dauerhaft (permanente Cookies) auf Ihrem Endgerät gespeichert.</p>
+  <p>Cookies, die zur Durchführung des elektronischen Kommunikationsvorgangs, zur Bereitstellung bestimmter, von Ihnen erwünschter Funktionen oder zur Optimierung der Website erforderlich sind (notwendige Cookies), werden auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO gespeichert, sofern keine andere Rechtsgrundlage angegeben wird.</p>
+  <p>Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für bestimmte Fälle oder generell ausschließen sowie das automatische Löschen der Cookies beim Schließen des Browsers aktivieren.</p>
+
+  <p><strong>Server-Log-Dateien</strong></p>
+  <p>Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind: Browsertyp und -version, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners, Uhrzeit der Serveranfrage, IP-Adresse.</p>
+  <p>Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.</p>
+
+  <hr class="separator">
+
+  <h2>5. KI-gestützter Chat-Assistent („Frag Scotty")</h2>
+  <p><strong>Beschreibung und Umfang der Datenverarbeitung</strong></p>
+  <p>Diese Anwendung enthält einen optionalen KI-Chat-Assistenten („Scotty"), der auf der API von Anthropic basiert. Wenn Sie den Chat nutzen, werden Ihre Chatnachrichten an die Server von Anthropic, PBC (548 Market St, PMB 90375, San Francisco, CA 94104, USA) übermittelt, um eine Antwort zu generieren.</p>
+
+  <p><strong>Welche Daten werden übermittelt?</strong></p>
+  <p>An Anthropic werden ausschließlich übermittelt: Ihre Chatnachricht (Freitext), der bisherige Chatverlauf der aktuellen Sitzung (max. 20 Nachrichten), anonymisierte, aggregierte Finanzkennzahlen (z.&nbsp;B. Umsatz, Gewinn, Cashflow als Gesamtsummen).</p>
+  <p>Es werden keine personenbezogenen Daten übermittelt. Insbesondere werden Ihr Name, Ihre E-Mail-Adresse, Ihr Firmenname, einzelne Buchungen, Rechnungen oder Kontodaten nicht an Anthropic weitergegeben.</p>
+
+  <div class="page-number">Anlage 2 – Seite 3 von 4</div>
+</div>
+
+<div class="page">
+  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
+  <p><strong>Rechtsgrundlage</strong></p>
+  <p>Die Verarbeitung erfolgt auf Grundlage Ihrer Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO, die Sie durch die aktive Nutzung des Chat-Assistenten erteilen. Sie können den Chat jederzeit nicht nutzen; die übrige Funktionalität der Anwendung bleibt davon unberührt.</p>
+
+  <p><strong>Datenübermittlung in Drittstaaten</strong></p>
+  <p>Durch die Nutzung des Chat-Assistenten werden Daten an Anthropic in die USA übermittelt. Die USA verfügen über einen Angemessenheitsbeschluss der EU-Kommission (EU-US Data Privacy Framework). Anthropic verarbeitet Daten gemäß ihrer Datenschutzrichtlinie: https://www.anthropic.com/privacy.</p>
+
+  <p><strong>Speicherdauer</strong></p>
+  <p>Anthropic speichert API-Anfragen gemäß ihrer Nutzungsbedingungen für bis zu 30 Tage zur Missbrauchserkennung und löscht diese anschließend. Chatnachrichten werden in unserer Anwendung nicht dauerhaft gespeichert — der Chatverlauf existiert nur in Ihrer Browser-Sitzung (sessionStorage) und wird beim Schließen des Browsers automatisch gelöscht.</p>
+
+  <p><strong>Nutzungsbeschränkung</strong></p>
+  <p>Die Nutzung des Chat-Assistenten ist auf 20 Nachrichten pro Tag begrenzt. Diese Beschränkung dient der Kostenkontrolle und wird über eine lokale Zählung in unserer Datenbank erfasst.</p>
+
+  <hr class="separator">
+
+  <p style="font-size: 9pt; color: #8D5F4E; margin-top: 8mm;">Quelle: eRecht24 | © 2026 Finance Flow | Alexander Schack</p>
+
+  <div class="page-number">Anlage 2 – Seite 4 von 4</div>
+</div>
+
+</body>
+</html>

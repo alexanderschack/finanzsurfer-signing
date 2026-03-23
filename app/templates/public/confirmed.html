@@ -1,0 +1,30 @@
+{% extends "base_public.html" %}
+{% block title %}Vertrag unterschrieben{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 80px auto; text-align: center; padding: 0 20px;">
+  <img src="/static/assets/logo-dark.png" alt="Finanzsurfer" style="height: 50px; margin-bottom: 30px;">
+
+  <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 24pt; color: #1F3B4D; margin-bottom: 16px;">
+    Vertrag unterschrieben!
+  </h1>
+
+  <p style="font-family: 'Libre Baskerville', serif; font-size: 14pt; color: #8D5F4E; margin-bottom: 30px;">
+    Vielen Dank, {{ contract.vorname }}!
+  </p>
+
+  <div style="background: #fff; border-radius: 8px; padding: 24px; text-align: left; margin-bottom: 30px;">
+    <p style="margin-bottom: 8px;"><strong>Unterschrieben als:</strong> {{ contract.signed_name }}</p>
+    <p style="margin-bottom: 8px;"><strong>Datum:</strong> {{ contract.signed_at[:10] }}</p>
+    <p><strong>Vertrag:</strong> Financial Flow Mentoring</p>
+  </div>
+
+  <p style="font-size: 11pt; color: #1F3B4D; line-height: 1.6;">
+    Du erhältst den unterschriebenen Vertrag in Kürze als PDF per E-Mail.
+  </p>
+
+  <p style="font-family: 'Libre Baskerville', serif; font-style: italic; color: #1F3B4D; font-size: 14pt; margin-top: 40px;">
+    Ich freue mich auf unsere Zusammenarbeit!<br>
+    — Alex
+  </p>
+</div>
+{% endblock %}

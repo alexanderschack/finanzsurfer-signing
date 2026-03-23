@@ -1,0 +1,76 @@
+{% extends "base_admin.html" %}
+{% block title %}Neuer Vertrag{% endblock %}
+{% block content %}
+<h1>Neuen Vertrag erstellen</h1>
+
+<form method="post" action="/admin/contracts" class="form-card">
+  <h2>Kundendaten</h2>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="vorname">Vorname</label>
+      <input type="text" id="vorname" name="vorname" required>
+    </div>
+    <div class="form-group">
+      <label for="nachname">Nachname</label>
+      <input type="text" id="nachname" name="nachname" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="strasse">Straße + Hausnummer</label>
+    <input type="text" id="strasse" name="strasse" required>
+  </div>
+  <div class="form-group">
+    <label for="plz_ort">PLZ Ort</label>
+    <input type="text" id="plz_ort" name="plz_ort" required>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="mobil">Mobil</label>
+      <input type="text" id="mobil" name="mobil" required>
+    </div>
+  </div>
+
+  <h2>Vertragskonditionen</h2>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="betrag_gesamt">Gesamtbetrag (EUR brutto)</label>
+      <input type="number" id="betrag_gesamt" name="betrag_gesamt" value="3333" required>
+    </div>
+    <div class="form-group">
+      <label for="raten">Anzahl Raten (0 = Einmalzahlung)</label>
+      <input type="number" id="raten" name="raten" value="0" min="0">
+    </div>
+    <div class="form-group">
+      <label for="rate">Betrag pro Rate (EUR)</label>
+      <input type="number" id="rate" name="rate" value="0" min="0">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="startdatum">Startdatum</label>
+      <input type="date" id="startdatum" name="startdatum" required>
+    </div>
+    <div class="form-group">
+      <label for="wochen">Laufzeit (Wochen)</label>
+      <input type="number" id="wochen" name="wochen" value="14" min="1">
+    </div>
+    <div class="form-group">
+      <label for="gueltig_tage">Link gültig (Tage)</label>
+      <input type="number" id="gueltig_tage" name="gueltig_tage" value="14" min="1">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="bonus">Bonus-Leistung (optional)</label>
+    <select id="bonus" name="bonus">
+      <option value="">Keine</option>
+      <option value="1 Bonus-Session: Emotional Release (Welle 3)">Emotional Release Session (Welle 3)</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Vertrag erstellen</button>
+</form>
+{% endblock %}

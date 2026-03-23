@@ -1,0 +1,50 @@
+{% extends "base_admin.html" %}
+{% block title %}Verträge{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Verträge</h1>
+  <a href="/admin/contracts/new" class="btn btn-primary">+ Neuer Vertrag</a>
+</div>
+
+{% if contracts %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>E-Mail</th>
+      <th>Betrag</th>
+      <th>Status</th>
+      <th>Erstellt</th>
+      <th>Unterschrieben</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in contracts %}
+    <tr>
+      <td><strong>{{ c.vorname }} {{ c.nachname }}</strong></td>
+      <td>{{ c.email }}</td>
+      <td>{{ "{:,.0f}".format(c.betrag_gesamt).replace(",", ".") }} EUR</td>
+      <td>
+        {% if c.status == "signed" %}
+          <span class="pill pill-success">Unterschrieben</span>
+        {% elif c.is_expired %}
+          <span class="pill pill-muted">Abgelaufen</span>
+        {% else %}
+          <span class="pill pill-warning">Offen</span>
+        {% endif %}
+      </td>
+      <td>{{ c.created_at[:10] }}</td>
+      <td>{{ c.signed_at[:10] if c.signed_at else "—" }}</td>
+      <td><a href="/admin/contracts/{{ c.id }}" class="btn btn-sm">Details</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+  <p>Noch keine Verträge erstellt.</p>
+  <a href="/admin/contracts/new" class="btn btn-primary">Ersten Vertrag erstellen</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,251 @@
+/* Finanzsurfer Signing — Admin CSS */
+
+:root {
+  --navy: #1F3B4D;
+  --beige: #EDE6DE;
+  --brown: #8D5F4E;
+  --white: #ffffff;
+  --bg: #EDE6DE;
+  --text: #1F3B4D;
+  --text-muted: #8D5F4E;
+  --border: rgba(141, 95, 78, 0.2);
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --radius: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* Nav */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: var(--navy);
+  color: var(--beige);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-links a {
+  color: var(--beige);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+.nav-links a:hover { opacity: 0.8; }
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--beige);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.btn-link:hover { opacity: 1; }
+
+/* Main */
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px 24px;
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1.5px solid var(--navy);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--navy);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn:hover {
+  background: var(--navy);
+  color: var(--beige);
+}
+.btn-primary {
+  background: var(--navy);
+  color: var(--beige);
+  border-color: var(--navy);
+}
+.btn-primary:hover {
+  background: #2a5068;
+  border-color: #2a5068;
+}
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+/* Cards */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--brown);
+  margin-bottom: 12px;
+}
+
+/* Detail grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.detail-grid .card:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--brown);
+  border-bottom: 1.5px solid var(--border);
+}
+.table td {
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.table tr:last-child td { border-bottom: none; }
+
+/* Pills */
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.pill-success { background: #d4edda; color: #155724; }
+.pill-warning { background: #fff3cd; color: #856404; }
+.pill-muted { background: #e2e2e2; color: #666; }
+
+/* Forms */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.form-card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--brown);
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+.form-card h2:first-child { margin-top: 0; }
+.form-group {
+  margin-bottom: 14px;
+  flex: 1;
+}
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--navy);
+}
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+/* Alert */
+.alert { padding: 12px 16px; border-radius: var(--radius); margin-bottom: 16px; font-size: 13px; }
+.alert-error { background: #f8d7da; color: #721c24; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .btn { margin-top: 16px; }
+
+/* Link box */
+.link-box input {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: monospace;
+  background: var(--beige);
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}

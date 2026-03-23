@@ -11,7 +11,6 @@ from app.services.contract_service import (
 
 logger = logging.getLogger(__name__)
 
-# Static assets directory for weasyprint to resolve images
 STATIC_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
     "static"
@@ -19,12 +18,7 @@ STATIC_DIR = os.path.join(
 
 
 def generate_signed_pdf(contract) -> bytes:
-    """Generate a signed A4 PDF from the contract data.
-
-    Uses the original print-optimized template (not the web version),
-    replaces the signature block with digital signature info.
-    Returns PDF as bytes.
-    """
+    """Generate a signed A4 PDF from the contract data."""
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
@@ -86,7 +80,7 @@ def generate_signed_pdf(contract) -> bytes:
     </div>
     """ % (contract.signed_name, signed_date_formatted, contract.signed_ip or "—")
 
-    # Replace everything from CTA through closing (including signature block)
+    # Replace CTA + signature block + closing
     html = re.sub(
         r'<div class="cta">.*?</div>\s*'
         r'<div class="signature-block">.*?</div>\s*</div>\s*'
@@ -96,60 +90,197 @@ def generate_signed_pdf(contract) -> bytes:
         flags=re.DOTALL,
     )
 
-    # Fix CSS for weasyprint PDF rendering:
-    # 1. Remove cover-bg mask-image (not supported by weasyprint) — use simple opacity
-    html = html.replace(
-        '-webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.6) 100%);\n'
-        '    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.6) 100%);',
-        ''
-    )
-    # Reduce opacity further for cleaner look in PDF
-    html = html.replace(
-        'opacity: 0.3;',
-        'opacity: 0.15;'
+    # Remove the cover background image entirely (mask-image not supported in weasyprint)
+    html = re.sub(
+        r'<img class="cover-bg"[^>]*>',
+        '',
+        html,
     )
 
-    # 2. Ensure each .page is exactly one A4 page with proper breaks
-    weasyprint_css = """
-    <style>
-      @page { size: A4; margin: 0; }
-      .page {
-        width: 210mm !important;
-        height: 297mm !important;
-        min-height: 297mm !important;
-        max-height: 297mm !important;
-        overflow: hidden !important;
-        page-break-after: always !important;
-        page-break-inside: avoid !important;
-        position: relative !important;
-      }
-      .page:last-child {
-        page-break-after: auto !important;
-      }
-      .page-number {
-        position: absolute !important;
-        bottom: 20mm !important;
-        right: 30mm !important;
-      }
-      .page-logo {
-        position: absolute !important;
-        top: 20mm !important;
-        left: 30mm !important;
-        height: 20mm !important;
-        width: auto !important;
-      }
-      /* Screen media query should not apply */
-      @media screen { .page { margin: 0 !important; box-shadow: none !important; } }
-    </style>
-    """
-    html = html.replace('</head>', weasyprint_css + '</head>')
+    # Remove all existing <style> and rebuild clean CSS for weasyprint
+    html = re.sub(r'<style>.*?</style>', '', html, flags=re.DOTALL)
 
-    # Generate PDF (lazy import — weasyprint needs system libs)
+    # Remove @media blocks and screen-only styles
+    # Remove box-shadow references
+
+    weasyprint_css = """<style>
+    @page { size: A4; margin: 0; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #1F3B4D;
+      background: #EDE6DE;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 45mm 30mm 35mm 30mm;
+      background: #EDE6DE;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+
+    .page-cover {
+      display: block;
+      text-align: center;
+      padding-top: 80mm;
+    }
+
+    .logo {
+      position: absolute;
+      top: 25mm;
+      left: 30mm;
+      height: 28mm;
+      width: auto;
+    }
+
+    .cover-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 42pt;
+      color: #1F3B4D;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.15;
+      margin-bottom: 15mm;
+    }
+
+    .cover-subtitle {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 14pt;
+      font-weight: 400;
+      color: #1F3B4D;
+      margin-bottom: 5mm;
+    }
+
+    .cover-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11pt;
+      color: #8D5F4E;
+      margin-bottom: 20mm;
+    }
+
+    .cover-welcome {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 16pt;
+      color: #1F3B4D;
+      margin-top: 15mm;
+    }
+    .cover-welcome .name { color: #1F3B4D; font-weight: 400; }
+
+    .cover-footer {
+      position: absolute;
+      bottom: 25mm;
+      left: 30mm;
+      font-size: 9pt;
+      color: #8D5F4E;
+    }
+    .cover-footer a { color: #8D5F4E; text-decoration: none; }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 18pt;
+      text-transform: uppercase;
+      color: #1F3B4D;
+      letter-spacing: 1.5px;
+      margin-bottom: 8mm;
+    }
+
+    h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13pt;
+      text-transform: uppercase;
+      color: #1F3B4D;
+      letter-spacing: 1px;
+      margin-top: 8mm;
+      margin-bottom: 4mm;
+    }
+
+    p {
+      margin-bottom: 3mm;
+      text-align: justify;
+    }
+
+    .parties { margin: 6mm 0; }
+    .party { margin-bottom: 5mm; }
+    .party-name { font-weight: 700; font-size: 12pt; }
+    .party-role { font-style: italic; color: #8D5F4E; margin-top: 2mm; }
+    .party-und { text-align: center; margin: 4mm 0; color: #8D5F4E; }
+
+    .highlight { font-weight: 700; }
+
+    ul { margin: 3mm 0 3mm 6mm; list-style: none; }
+    ul li { padding-left: 4mm; position: relative; margin-bottom: 1.5mm; }
+    ul li::before { content: "–"; position: absolute; left: -2mm; color: #8D5F4E; }
+
+    .cta {
+      text-align: left;
+      margin-top: 10mm;
+      margin-bottom: 2mm;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 12pt;
+      color: #1F3B4D;
+    }
+
+    .separator {
+      border: none;
+      border-top: 0.5pt solid #8D5F4E;
+      margin: 4mm 0;
+      opacity: 0.4;
+    }
+
+    .page-number {
+      position: absolute;
+      bottom: 20mm;
+      right: 30mm;
+      font-size: 9pt;
+      color: #8D5F4E;
+    }
+
+    .page-logo {
+      position: absolute;
+      top: 20mm;
+      left: 30mm;
+      height: 20mm;
+      width: auto;
+    }
+
+    .anlage-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #8D5F4E;
+      margin-bottom: 6mm;
+    }
+
+    .anlage-stand {
+      font-size: 10pt;
+      color: #8D5F4E;
+      margin-bottom: 5mm;
+    }
+    </style>"""
+
+    html = html.replace('</head>', weasyprint_css + '\n</head>')
+
+    # Generate PDF
     try:
         from weasyprint import HTML
     except OSError:
-        logger.error("weasyprint nicht verfügbar (fehlende System-Libraries). PDF wird nicht generiert.")
+        logger.error("weasyprint nicht verfügbar. PDF wird nicht generiert.")
         return None
+
     pdf_bytes = HTML(string=html).write_pdf()
     logger.info(
         "PDF generiert fuer %s %s (%d bytes)",

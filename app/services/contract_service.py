@@ -162,4 +162,14 @@ def render_contract_html(
         flags=re.DOTALL,
     )
 
+    # Remove page numbers from web view (only needed in PDF)
+    html = re.sub(
+        r'<div class="page-number">.*?</div>',
+        '',
+        html,
+    )
+
+    # Show more of the cover image in web view
+    html = html.replace('height: 55%;', 'height: 70%;')
+
     return html

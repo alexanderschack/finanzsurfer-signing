@@ -98,7 +98,7 @@ def generate_signed_pdf(contract) -> bytes:
           Gegengezeichnet
         </div>
         <img src="file://%s" style="height: 15mm; width: auto; display: block; margin-bottom: 2mm;" alt="Unterschrift Alexander Schack">
-        <p style="font-size: 10pt; margin-bottom: 0;">Alexander Schack, Finance Flow</p>
+        <p style="font-size: 10pt; margin-bottom: 0;">Finance Flow | Alexander Schack</p>
       </div>
       <div style="font-size: 8pt; color: #8D5F4E; margin-top: 4mm;">
         Dieser Vertrag wurde gemäß § 126b BGB in Textform digital geschlossen.

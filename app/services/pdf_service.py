@@ -86,7 +86,7 @@ def generate_signed_pdf(contract) -> bytes:
     signed_block = """
     <div style="margin-top: 8mm;">
       <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12pt; color: #1F3B4D; margin-bottom: 4mm;">
-        Digital unterschrieben
+        Unterschrift Mentee
       </div>
       <div style="background: #d4edda; border-radius: 4px; padding: 5mm 6mm; margin-bottom: 4mm;">
         <p style="margin-bottom: 2mm; font-size: 10pt;"><strong>Unterschrieben als:</strong> %s</p>
@@ -95,7 +95,7 @@ def generate_signed_pdf(contract) -> bytes:
       </div>
       <div style="margin-top: 6mm;">
         <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12pt; color: #1F3B4D; margin-bottom: 2mm;">
-          Gegengezeichnet
+          Unterschrift Mentor
         </div>
         <img src="file://%s" style="height: 15mm; width: auto; display: block; margin-bottom: 2mm;" alt="Unterschrift Alexander Schack">
         <p style="font-size: 10pt; margin-bottom: 0;">Finance Flow | Alexander Schack</p>

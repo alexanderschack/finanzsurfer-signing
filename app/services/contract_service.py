@@ -170,6 +170,6 @@ def render_contract_html(
     )
 
     # Show more of the cover image in web view
-    html = html.replace('height: 55%;', 'height: 70%;')
+    html = html.replace('height: 55%;', 'height: 85%;')
 
     return html

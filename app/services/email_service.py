@@ -15,8 +15,8 @@ BCC_ALEX = "alex@finanz-surfer.de"
 EMAIL_SIGNATURE = """
 <div style="margin-top: 24px; font-family: sans-serif; font-size: 13px; color: #1F3B4D; line-height: 1.5;">
   <div style="border-top: 1px solid #8D5F4E; margin-bottom: 16px; width: 180px;"></div>
-  <div style="font-family: 'Libre Baskerville', Georgia, serif; font-size: 20px; color: #8D5F4E; margin-bottom: 12px;">
-    <span style="color: #C4956A;">Finanz</span><em>surfer</em>
+  <div style="margin-bottom: 12px;">
+    <img src="https://sign.finanz-surfer.de/static/assets/logo-dark.png" alt="Finanzsurfer" style="height: 28px; width: auto;">
   </div>
   <p style="margin: 0 0 2px;"><strong>T:</strong> +49 151 52531347</p>
   <p style="margin: 0 0 2px;"><strong>M:</strong> <a href="mailto:alex@finanz-surfer.de" style="color: #8D5F4E;">alex@finanz-surfer.de</a></p>

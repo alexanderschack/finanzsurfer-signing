@@ -8,10 +8,6 @@
 <style>
   @page {
     size: A4;
-    margin: 25mm;
-  }
-  @page cover-page {
-    size: A4;
     margin: 0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +24,6 @@
 
   /* Cover page */
   .page-cover {
-    page: cover-page;
     width: 210mm;
     height: 297mm;
     margin: 0 auto;
@@ -113,6 +108,10 @@
 
   /* Content sections — flow naturally, Chrome paginates */
   .contract-section {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 30mm 25mm 25mm 25mm;
+    background: #EDE6DE;
     page-break-before: always;
   }
 
@@ -271,11 +270,8 @@
       box-shadow: 0 2px 20px rgba(0,0,0,0.1);
     }
     .contract-section {
-      max-width: 210mm;
       margin: 10mm auto;
-      padding: 10mm 25mm;
       box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-      background: #EDE6DE;
     }
   }
 </style>

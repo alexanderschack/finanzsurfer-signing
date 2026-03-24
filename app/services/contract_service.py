@@ -107,10 +107,8 @@ def render_contract_html(
     # Strip print-only CSS for web display
     # Remove @page rules
     html = re.sub(r'@page\s*\{[^}]*\}', '', html)
-    html = re.sub(r'@page\s+cover-page\s*\{[^}]*\}', '', html)
 
     # Remove print-specific properties
-    html = re.sub(r'page:\s*cover-page;\s*', '', html)
     html = re.sub(r'page-break-(?:before|after):\s*\w+;\s*', '', html)
     html = re.sub(r'page-break-after:\s*avoid;\s*', '', html)
     html = re.sub(r'orphans:\s*\d+;\s*widows:\s*\d+;\s*', '', html)
@@ -121,6 +119,7 @@ def render_contract_html(
 
     # Convert mm units to px for web
     mm_to_px = {
+        'padding: 30mm 25mm 25mm 25mm;': 'padding: 40px 30px 30px 30px;',
         'padding-top: 60mm;': 'padding-top: 80px; padding-bottom: 60px;',
         'top: 25mm;': 'top: 20px;',
         'left: 30mm;': 'left: 20px;',

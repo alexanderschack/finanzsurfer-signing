@@ -52,8 +52,14 @@ def send_signing_confirmation(contract, base_url="https://sign.finanz-surfer.de"
                 pdf_bytes=pdf_bytes, pdf_filename=pdf_filename)
 
 
+BCC_ALEX = "alex@finanz-surfer.de"
+
+
 def _send_email(to, subject, html_body, pdf_bytes=None, pdf_filename=None):
-    """Send a single email via SMTP, optionally with PDF attachment."""
+    """Send a single email via SMTP, optionally with PDF attachment.
+
+    Always BCC alex@finanz-surfer.de so Alex gets a copy of every outgoing mail.
+    """
     try:
         msg = MIMEMultipart("mixed")
         msg["Subject"] = subject
@@ -74,11 +80,16 @@ def _send_email(to, subject, html_body, pdf_bytes=None, pdf_filename=None):
             )
             msg.attach(pdf_part)
 
+        # Always send to recipient + BCC Alex
+        recipients = [to]
+        if to != BCC_ALEX:
+            recipients.append(BCC_ALEX)
+
         with smtplib.SMTP(settings.smtp_host, settings.smtp_port) as server:
             server.starttls()
             server.login(settings.smtp_user, settings.smtp_password)
-            server.sendmail(settings.smtp_from, to, msg.as_string())
+            server.sendmail(settings.smtp_from, recipients, msg.as_string())
 
-        logger.info("E-Mail gesendet an %s: %s", to, subject)
+        logger.info("E-Mail gesendet an %s (BCC: %s): %s", to, BCC_ALEX, subject)
     except Exception as e:
         logger.error("E-Mail-Fehler an %s: %s", to, str(e))

@@ -104,71 +104,55 @@ def render_contract_html(
     # Rewrite image paths for web serving
     html = html.replace('src="assets/', 'src="/static/assets/')
 
-    # Strip print-only CSS for web display
-    # Remove @page rules
-    html = re.sub(r'@page\s+cover-page\s*\{[^}]*\}', '', html)
-    html = re.sub(r'@page\s*\{[^}]*\}', '', html)
-
-    # Remove print-specific properties
-    html = re.sub(r'page:\s*cover-page;\s*', '', html)
-    html = re.sub(r'page-break-(?:before|after):\s*\w+;\s*', '', html)
-    html = re.sub(r'page-break-after:\s*avoid;\s*', '', html)
-    html = re.sub(r'orphans:\s*\d+;\s*widows:\s*\d+;\s*', '', html)
-
-    # Adapt cover for web
-    html = html.replace('width: 210mm;', 'max-width: 800px;')
-    html = html.replace('height: 297mm;', 'min-height: 500px;')
-
-    # Convert mm units to px for web
-    mm_to_px = {
-        'padding: 10mm 25mm 10mm 25mm;': 'padding: 20px 30px 20px 30px;',
-        'padding-top: 60mm;': 'padding-top: 80px; padding-bottom: 60px;',
-        'top: 25mm;': 'top: 20px;',
-        'left: 30mm;': 'left: 20px;',
-        'height: 28mm;': 'height: 50px;',
-        'height: 14mm;': 'height: 36px;',
-        'margin-bottom: 4mm;': 'margin-bottom: 8px;',
-        'margin-bottom: 15mm;': 'margin-bottom: 30px;',
-        'margin-bottom: 20mm;': 'margin-bottom: 30px;',
-        'margin-top: 15mm;': 'margin-top: 25px;',
-        'margin-bottom: 5mm;': 'margin-bottom: 10px;',
-        'margin-bottom: 8mm;': 'margin-bottom: 16px;',
-        'margin-bottom: 6mm;': 'margin-bottom: 12px;',
-        'margin: 6mm 0;': 'margin: 12px 0;',
-        'margin-top: 2mm;': 'margin-top: 4px;',
-        'margin: 4mm 0;': 'margin: 8px 0;',
-        'margin: 3mm 0 3mm 6mm;': 'margin: 6px 0 6px 12px;',
-        'margin-bottom: 1.5mm;': 'margin-bottom: 3px;',
-        'left: -2mm;': 'left: -8px;',
-        'padding-left: 4mm;': 'padding-left: 12px;',
-        'margin-top: 8mm;': 'margin-top: 16px;',
-        'margin-bottom: 4mm;': 'margin-bottom: 8px;',
-        'margin-bottom: 3mm;': 'margin-bottom: 6px;',
-        'margin-bottom: 2mm;': 'margin-bottom: 4px;',
-        'margin-top: 1mm;': 'margin-top: 2px;',
-        'margin-top: 10mm;': 'margin-top: 16px;',
-        'gap: 20mm;': 'gap: 40px;',
-        'height: 15mm;': 'height: 30px;',
-        'bottom: 25mm;': 'bottom: 20px;',
-        'margin: 4mm 0;': 'margin: 8px 0;',
-        'margin-top: 8mm;': 'margin-top: 16px;',
+    # Adapt print CSS for web display
+    css_replacements = {
+        # Page layout: A4 fixed -> flowing web
+        "width: 210mm;": "max-width: 800px;",
+        "padding: 25mm;": "padding: 40px 30px;",
+        "page-break-after: always;": "",
+        "@page {\n    size: A4;\n    margin: 0;\n  }": "",
+        "-webkit-print-color-adjust: exact;\n    print-color-adjust: exact;": "",
+        # Cover
+        "padding-top: 60mm;": "padding-top: 80px; padding-bottom: 60px;",
+        "height: 297mm;": "min-height: 400px;",
+        # Logo
+        "top: 25mm;": "top: 20px;",
+        "left: 30mm;": "left: 20px;",
+        "height: 28mm;": "height: 50px;",
+        # Section logo
+        "height: 14mm;": "height: 36px;",
+        "margin-bottom: 4mm;": "margin-bottom: 8px;",
+        # Cover footer
+        "bottom: 25mm;": "bottom: 20px;",
+        # mm units to px
+        "margin-bottom: 15mm;": "margin-bottom: 30px;",
+        "margin-bottom: 20mm;": "margin-bottom: 30px;",
+        "margin-top: 15mm;": "margin-top: 25px;",
+        "margin-bottom: 5mm;": "margin-bottom: 10px;",
+        "margin-bottom: 8mm;": "margin-bottom: 16px;",
+        "margin-bottom: 6mm;": "margin-bottom: 12px;",
+        "margin: 6mm 0;": "margin: 12px 0;",
+        "margin-top: 2mm;": "margin-top: 4px;",
+        "margin: 4mm 0;": "margin: 8px 0;",
+        "margin: 3mm 0 3mm 6mm;": "margin: 6px 0 6px 12px;",
+        "margin-bottom: 1.5mm;": "margin-bottom: 3px;",
+        "left: -2mm;": "left: -8px;",
+        "padding-left: 4mm;": "padding-left: 12px;",
+        "margin-top: 8mm;": "margin-top: 16px;",
+        "margin-bottom: 4mm;": "margin-bottom: 8px;",
+        "margin-bottom: 3mm;": "margin-bottom: 6px;",
+        "margin-bottom: 2mm;": "margin-bottom: 4px;",
+        "margin-top: 1mm;": "margin-top: 2px;",
+        "margin-top: 10mm;": "margin-top: 16px;",
+        "gap: 20mm;": "gap: 40px;",
+        "height: 15mm;": "height: 30px;",
         'style="margin-top: 10mm;"': 'style="margin-top: 20px;"',
+        # Media queries: flatten for web
+        "@media print {\n    body { background: #EDE6DE; }\n    .page { margin: 0; box-shadow: none; }\n  }\n  @media screen {\n    .page {\n      margin: 10mm auto;\n      box-shadow: 0 2px 20px rgba(0,0,0,0.1);\n    }\n  }": ".page { margin: 20px auto; }",
     }
-    for old, new in mm_to_px.items():
-        html = html.replace(old, new)
 
-    # Simplify media queries for web
-    html = re.sub(
-        r'@media\s+print\s*\{[^}]*\}',
-        '',
-        html,
-    )
-    html = re.sub(
-        r'@media\s+screen\s*\{(.*?)\}(\s*\})',
-        r'\1',
-        html,
-        flags=re.DOTALL,
-    )
+    for old, new in css_replacements.items():
+        html = html.replace(old, new)
 
     # Remove the physical signature block (signing is digital)
     html = re.sub(

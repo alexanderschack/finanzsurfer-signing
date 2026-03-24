@@ -8,19 +8,9 @@
 <style>
   @page {
     size: A4;
-    margin: 20mm 0 15mm 0;
-  }
-  @page cover-page {
-    size: A4;
     margin: 0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html {
-    background: #EDE6DE;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
 
   body {
     font-family: 'Montserrat', sans-serif;
@@ -32,22 +22,26 @@
     print-color-adjust: exact;
   }
 
+  /* Every page: full A4, own padding, page break */
+  .page {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 25mm;
+    background: #EDE6DE;
+    page-break-after: always;
+  }
+
   /* Cover page */
   .page-cover {
-    page: cover-page;
-    width: 210mm;
-    height: 297mm;
-    margin: 0 auto;
-    background: #EDE6DE;
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding-top: 60mm;
+    height: 297mm;
+    position: relative;
     overflow: hidden;
-    page-break-after: always;
   }
 
   .cover-bg {
@@ -117,26 +111,7 @@
   }
   .cover-footer a { color: #8D5F4E; text-decoration: none; }
 
-  /* Background fill — covers @page margins on every printed page */
-  .page-bg {
-    position: fixed;
-    top: -20mm;
-    left: 0;
-    right: 0;
-    bottom: -15mm;
-    background: #EDE6DE;
-    z-index: -1;
-  }
-
-  /* Content sections — flow naturally, Chrome paginates */
-  .contract-section {
-    width: 210mm;
-    margin: 0 auto;
-    padding: 10mm 25mm 10mm 25mm;
-    background: #EDE6DE;
-    page-break-before: always;
-  }
-
+  /* Section logo — flow element at top of each page */
   .section-logo {
     height: 14mm;
     width: auto;
@@ -164,19 +139,15 @@
     letter-spacing: 1px;
     margin-top: 8mm;
     margin-bottom: 4mm;
-    page-break-after: avoid;
   }
 
   p {
     margin-bottom: 3mm;
     text-align: justify;
-    orphans: 2;
-    widows: 2;
   }
 
   .parties {
     margin: 6mm 0;
-    page-break-inside: avoid;
   }
   .party {
     margin-bottom: 5mm;
@@ -260,6 +231,13 @@
   }
   .closing .name { color: #1F3B4D; font-weight: 400; font-style: italic; }
 
+  .page-number {
+    text-align: right;
+    font-size: 9pt;
+    color: #8D5F4E;
+    margin-top: 8mm;
+  }
+
   .anlage-header {
     font-family: 'Montserrat', sans-serif;
     font-size: 9pt;
@@ -285,13 +263,10 @@
 
   @media print {
     body { background: #EDE6DE; }
+    .page { margin: 0; box-shadow: none; }
   }
   @media screen {
-    .page-cover {
-      margin: 10mm auto;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-    }
-    .contract-section {
+    .page {
       margin: 10mm auto;
       box-shadow: 0 2px 20px rgba(0,0,0,0.1);
     }
@@ -299,10 +274,9 @@
 </style>
 </head>
 <body>
-<div class="page-bg"></div>
 
-<!-- COVER -->
-<div class="page-cover">
+<!-- SEITE 1: Cover -->
+<div class="page page-cover">
   <img class="logo" src="assets/Logo 500x200.png" alt="Finanzsurfer">
   <div class="cover-title">Mentoring<br>Vertrag</div>
   <div class="cover-subtitle">Financial Flow Mentoring</div>
@@ -315,8 +289,8 @@
   </div>
 </div>
 
-<!-- VERTRAG -->
-<div class="contract-section">
+<!-- SEITE 2: Parteien + §1 -->
+<div class="page">
   <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h1>Mentoring-Vertrag</h1>
@@ -350,7 +324,12 @@
   <h2>§1 Vertragsgegenstand</h2>
   <p>Gegenstand des Vertrags ist das Mentoring-Programm „Financial Flow Mentoring". Es handelt sich um ein individuelles 1:1-Mentoring über 7 Module im Zeitraum von ca. {{WOCHEN}} Wochen mit Fokus auf Business-Finanzen.</p>
 
-  <hr class="separator">
+  <div class="page-number">Seite 1 von 4</div>
+</div>
+
+<!-- SEITE 3: §2 + §3 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h2>§2 Umfang der Leistung</h2>
   <p>Das Mentoring umfasst folgende individuell erbrachte Leistungen (gemäß dem Angebot):</p>
@@ -371,7 +350,12 @@
   <p>Die Teilnahmegebühr beträgt <span class="highlight">{{BETRAG_GESAMT}} EUR brutto</span> (inkl. gesetzl. USt.).</p>
   {{ZAHLUNGS_BLOCK}}
 
-  <hr class="separator">
+  <div class="page-number">Seite 2 von 4</div>
+</div>
+
+<!-- SEITE 4: §4 + §5 + §6 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h2>§4 Eigenverantwortung und Haftung</h2>
   <p>Die Mentee erkennt an, dass der Erfolg des Mentorings maßgeblich von ihrer aktiven Mitwirkung abhängt und das Programm keine Garantie für konkrete unternehmerische oder finanzielle Ergebnisse bietet.</p>
@@ -389,7 +373,12 @@
   <p>Sofern die Mentee Verbraucherin im Sinne des § 13 BGB ist, steht ihr ein Widerrufsrecht von 14 Tagen ab Vertragsschluss zu. Sofern die Mentee den Start des Mentorings vor Ablauf der Widerrufsfrist wünscht, bestätigt sie ausdrücklich, dass ihr Widerrufsrecht bei vollständiger Leistungserbringung erlischt (§ 356 Abs. 4 BGB).</p>
   <p>Sofern die Mentee im Rahmen ihrer gewerblichen oder selbstständigen Tätigkeit handelt (Unternehmerin i. S. d. § 14 BGB), besteht kein gesetzliches Widerrufsrecht.</p>
 
-  <hr class="separator">
+  <div class="page-number">Seite 3 von 4</div>
+</div>
+
+<!-- SEITE 5: §7 + §8 + §9 + Unterschriften -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h2>§7 Datenschutz</h2>
   <p>Im Rahmen des Mentorings werden personenbezogene Daten verarbeitet, insbesondere über das Finanzsurfer-Dashboard. Die Datenschutzbestimmungen sind diesem Vertrag als Anlage beigefügt. Mit Unterzeichnung dieses Vertrags bestätigt die Mentee, diese zur Kenntnis genommen zu haben.</p>
@@ -422,10 +411,12 @@
   </div>
 
   <div class="closing">Ich freue mich auf deine Transformationswelle,<br>liebe <span class="name">{{VORNAME}}</span>!</div>
+
+  <div class="page-number">Seite 4 von 4</div>
 </div>
 
-<!-- ANLAGE 1: AGB -->
-<div class="contract-section">
+<!-- ANLAGE 1: AGB Seite 1 -->
+<div class="page">
   <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
   <div class="anlage-header">Anlage 1 zum Mentoring-Vertrag</div>
 
@@ -462,7 +453,12 @@
   <p>Die Anwendung erfolgt auf eigene Verantwortung des Kunden. Auch bei korrekter Anwendung kann keine Garantie für Richtigkeit, Vollständigkeit oder die Eignung für individuelle Zwecke übernommen werden.</p>
   <p>Der Kunde trifft alle unternehmerischen und finanziellen Entscheidungen eigenverantwortlich. Eine Haftung des Anbieters für daraus resultierende wirtschaftliche, rechtliche oder sonstige Folgen ist ausgeschlossen – es sei denn, es liegt Vorsatz oder grobe Fahrlässigkeit vor.</p>
 
-  <hr class="separator">
+  <div class="page-number">Anlage 1 – Seite 1 von 2</div>
+</div>
+
+<!-- ANLAGE 1: AGB Seite 2 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h2>§6 Vertraulichkeit</h2>
   <p>Beide Parteien verpflichten sich, alle im Rahmen der Zusammenarbeit bekannt gewordenen Informationen, Unterlagen und Daten vertraulich zu behandeln und nicht an Dritte weiterzugeben. Diese Pflicht bleibt auch nach Beendigung der Zusammenarbeit bestehen.</p>
@@ -486,10 +482,12 @@
 
   <h2>§10 Schlussbestimmungen</h2>
   <p>Es gilt deutsches Recht. Gerichtsstand ist Rostock, sofern rechtlich zulässig. Sollten einzelne Regelungen unwirksam sein, bleibt der Vertrag im Übrigen wirksam.</p>
+
+  <div class="page-number">Anlage 1 – Seite 2 von 2</div>
 </div>
 
-<!-- ANLAGE 2: Datenschutzerklärung -->
-<div class="contract-section">
+<!-- ANLAGE 2: Datenschutz Seite 1 -->
+<div class="page">
   <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
   <div class="anlage-header">Anlage 2 zum Mentoring-Vertrag</div>
 
@@ -509,6 +507,13 @@
 
   <p><em>Wofür nutzen wir Ihre Daten?</em><br>
   Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden. Sofern über die Website Verträge geschlossen oder angebahnt werden können, werden die übermittelten Daten auch für Vertragsangebote, Bestellungen oder sonstige Auftragsanfragen verarbeitet.</p>
+
+  <div class="page-number">Anlage 2 – Seite 1 von 4</div>
+</div>
+
+<!-- ANLAGE 2: Datenschutz Seite 2 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <p><em>Welche Rechte haben Sie bezüglich Ihrer Daten?</em><br>
   Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können Sie diese Einwilligung jederzeit für die Zukunft widerrufen. Außerdem haben Sie das Recht, unter bestimmten Umständen die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen. Des Weiteren steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.</p>
@@ -530,6 +535,13 @@
   <p><strong>Hinweis zur verantwortlichen Stelle</strong></p>
   <p>Finance Flow | Alexander Schack<br>Weidengrund 76, 18059 Rostock<br>Telefon: +49 151 52531347<br>E-Mail: alex@finanz-surfer.de</p>
 
+  <div class="page-number">Anlage 2 – Seite 2 von 4</div>
+</div>
+
+<!-- ANLAGE 2: Datenschutz Seite 3 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
   <p><strong>Speicherdauer</strong></p>
   <p>Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt. Wenn Sie ein berechtigtes Löschersuchen geltend machen oder eine Einwilligung zur Datenverarbeitung widerrufen, werden Ihre Daten gelöscht, sofern wir keine anderen rechtlich zulässigen Gründe für die Speicherung Ihrer personenbezogenen Daten haben (z.&nbsp;B. steuer- oder handelsrechtliche Aufbewahrungsfristen); im letztgenannten Fall erfolgt die Löschung nach Fortfall dieser Gründe.</p>
 
@@ -548,6 +560,14 @@
   <p><strong>Cookies</strong></p>
   <p>Unsere Internetseiten verwenden so genannte „Cookies". Cookies sind kleine Datenpakete und richten auf Ihrem Endgerät keinen Schaden an. Sie werden entweder vorübergehend für die Dauer einer Sitzung (Session-Cookies) oder dauerhaft (permanente Cookies) auf Ihrem Endgerät gespeichert.</p>
   <p>Cookies, die zur Durchführung des elektronischen Kommunikationsvorgangs, zur Bereitstellung bestimmter, von Ihnen erwünschter Funktionen oder zur Optimierung der Website erforderlich sind (notwendige Cookies), werden auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO gespeichert, sofern keine andere Rechtsgrundlage angegeben wird.</p>
+
+  <div class="page-number">Anlage 2 – Seite 3 von 4</div>
+</div>
+
+<!-- ANLAGE 2: Datenschutz Seite 4 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+
   <p>Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und Cookies nur im Einzelfall erlauben, die Annahme von Cookies für bestimmte Fälle oder generell ausschließen sowie das automatische Löschen der Cookies beim Schließen des Browsers aktivieren.</p>
 
   <p><strong>Server-Log-Dateien</strong></p>
@@ -579,6 +599,8 @@
   <hr class="separator">
 
   <p style="font-size: 9pt; color: #8D5F4E; margin-top: 8mm;">Quelle: eRecht24 | © 2026 Finance Flow | Alexander Schack</p>
+
+  <div class="page-number">Anlage 2 – Seite 4 von 4</div>
 </div>
 
 </body>

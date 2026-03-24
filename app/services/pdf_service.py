@@ -81,6 +81,8 @@ def generate_signed_pdf(contract) -> bytes:
     except (ValueError, IndexError):
         signed_date_formatted = signed_date
 
+    signatur_path = os.path.join(assets_dir, "signatur-alex.jpg")
+
     signed_block = """
     <div style="margin-top: 8mm;">
       <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12pt; color: #1F3B4D; margin-bottom: 4mm;">
@@ -91,11 +93,18 @@ def generate_signed_pdf(contract) -> bytes:
         <p style="margin-bottom: 2mm; font-size: 10pt;"><strong>Datum:</strong> %s</p>
         <p style="margin-bottom: 0; font-size: 10pt;"><strong>IP-Adresse:</strong> %s</p>
       </div>
-      <div style="font-size: 8pt; color: #8D5F4E;">
+      <div style="margin-top: 6mm;">
+        <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12pt; color: #1F3B4D; margin-bottom: 2mm;">
+          Gegengezeichnet
+        </div>
+        <img src="file://%s" style="height: 15mm; width: auto; display: block; margin-bottom: 2mm;" alt="Unterschrift Alexander Schack">
+        <p style="font-size: 10pt; margin-bottom: 0;">Alexander Schack, Finance Flow</p>
+      </div>
+      <div style="font-size: 8pt; color: #8D5F4E; margin-top: 4mm;">
         Dieser Vertrag wurde gemäß § 126b BGB in Textform digital geschlossen.
       </div>
     </div>
-    """ % (contract.signed_name, signed_date_formatted, contract.signed_ip or "—")
+    """ % (contract.signed_name, signed_date_formatted, contract.signed_ip or "—", signatur_path)
 
     # Replace CTA + signature block + closing
     html = re.sub(

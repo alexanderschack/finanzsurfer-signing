@@ -8,6 +8,10 @@
 <style>
   @page {
     size: A4;
+    margin: 25mm;
+  }
+  @page cover-page {
+    size: A4;
     margin: 0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,17 +26,14 @@
     print-color-adjust: exact;
   }
 
-  .page {
+  /* Cover page */
+  .page-cover {
+    page: cover-page;
     width: 210mm;
-    min-height: 297mm;
+    height: 297mm;
     margin: 0 auto;
-    padding: 30mm 25mm 25mm 25mm;
     background: #EDE6DE;
     position: relative;
-    page-break-after: always;
-  }
-
-  .page-cover {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -40,6 +41,7 @@
     text-align: center;
     padding-top: 60mm;
     overflow: hidden;
+    page-break-after: always;
   }
 
   .cover-bg {
@@ -109,6 +111,18 @@
   }
   .cover-footer a { color: #8D5F4E; text-decoration: none; }
 
+  /* Content sections — flow naturally, Chrome paginates */
+  .contract-section {
+    page-break-before: always;
+  }
+
+  .section-logo {
+    height: 14mm;
+    width: auto;
+    display: block;
+    margin-bottom: 4mm;
+  }
+
   /* Content pages */
   h1 {
     font-family: 'Montserrat', sans-serif;
@@ -129,15 +143,19 @@
     letter-spacing: 1px;
     margin-top: 8mm;
     margin-bottom: 4mm;
+    page-break-after: avoid;
   }
 
   p {
     margin-bottom: 3mm;
     text-align: justify;
+    orphans: 2;
+    widows: 2;
   }
 
   .parties {
     margin: 6mm 0;
+    page-break-inside: avoid;
   }
   .party {
     margin-bottom: 5mm;
@@ -221,22 +239,6 @@
   }
   .closing .name { color: #1F3B4D; font-weight: 400; font-style: italic; }
 
-  .page-number {
-    position: absolute;
-    bottom: 12mm;
-    right: 25mm;
-    font-size: 9pt;
-    color: #8D5F4E;
-  }
-
-  .page-logo {
-    position: absolute;
-    top: 12mm;
-    left: 25mm;
-    height: 16mm;
-    width: auto;
-  }
-
   .anlage-header {
     font-family: 'Montserrat', sans-serif;
     font-size: 9pt;
@@ -262,20 +264,26 @@
 
   @media print {
     body { background: #EDE6DE; }
-    .page { margin: 0; box-shadow: none; }
   }
   @media screen {
-    .page {
+    .page-cover {
       margin: 10mm auto;
       box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
+    .contract-section {
+      max-width: 210mm;
+      margin: 10mm auto;
+      padding: 10mm 25mm;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      background: #EDE6DE;
     }
   }
 </style>
 </head>
 <body>
 
-<!-- SEITE 1: Cover -->
-<div class="page page-cover">
+<!-- COVER -->
+<div class="page-cover">
   <img class="logo" src="assets/Logo 500x200.png" alt="Finanzsurfer">
   <div class="cover-title">Mentoring<br>Vertrag</div>
   <div class="cover-subtitle">Financial Flow Mentoring</div>
@@ -288,9 +296,9 @@
   </div>
 </div>
 
-<!-- SEITE 2: Parteien + §1 + §2 -->
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+<!-- VERTRAG -->
+<div class="contract-section">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h1>Mentoring-Vertrag</h1>
 
@@ -338,12 +346,7 @@
   </ul>
   <p>Die Inhalte und Bausteine orientieren sich am regulären Angebot, können jedoch auf die individuellen Bedarfe der Mentee angepasst werden. Ein Anspruch auf bestimmte Tools oder Module besteht nicht.</p>
 
-  <div class="page-number">Seite 2 von 4</div>
-</div>
-
-<!-- SEITE 3: §3 + §4 + §5 -->
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <hr class="separator">
 
   <h2>§3 Zahlungsbedingungen</h2>
   <p>Die Teilnahmegebühr beträgt <span class="highlight">{{BETRAG_GESAMT}} EUR brutto</span> (inkl. gesetzl. USt.).</p>
@@ -361,12 +364,7 @@
   <h2>§5 Beginn und Dauer</h2>
   <p>Das Mentoring beginnt am <span class="highlight">{{STARTDATUM}}</span> mit dem Kick-off-Call und endet nach Abschluss aller 7 Module (ca. {{WOCHEN}} Wochen nach Beginn).</p>
 
-  <div class="page-number">Seite 3 von 4</div>
-</div>
-
-<!-- SEITE 4: §6 + §7 + §8 + §9 + Unterschriften -->
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <hr class="separator">
 
   <h2>§6 Widerrufsrecht für Verbraucher:innen</h2>
   <p>Sofern die Mentee Verbraucherin im Sinne des § 13 BGB ist, steht ihr ein Widerrufsrecht von 14 Tagen ab Vertragsschluss zu. Sofern die Mentee den Start des Mentorings vor Ablauf der Widerrufsfrist wünscht, bestätigt sie ausdrücklich, dass ihr Widerrufsrecht bei vollständiger Leistungserbringung erlischt (§ 356 Abs. 4 BGB).</p>
@@ -405,13 +403,11 @@
   </div>
 
   <div class="closing">Ich freue mich auf deine Transformationswelle,<br>liebe <span class="name">{{VORNAME}}</span>!</div>
-
-  <div class="page-number">Seite 4 von 4</div>
 </div>
 
-<!-- ANLAGE 1: AGB (Seite 5–7) -->
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+<!-- ANLAGE 1: AGB -->
+<div class="contract-section">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
   <div class="anlage-header">Anlage 1 zum Mentoring-Vertrag</div>
 
   <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
@@ -447,11 +443,7 @@
   <p>Die Anwendung erfolgt auf eigene Verantwortung des Kunden. Auch bei korrekter Anwendung kann keine Garantie für Richtigkeit, Vollständigkeit oder die Eignung für individuelle Zwecke übernommen werden.</p>
   <p>Der Kunde trifft alle unternehmerischen und finanziellen Entscheidungen eigenverantwortlich. Eine Haftung des Anbieters für daraus resultierende wirtschaftliche, rechtliche oder sonstige Folgen ist ausgeschlossen – es sei denn, es liegt Vorsatz oder grobe Fahrlässigkeit vor.</p>
 
-  <div class="page-number">Anlage 1 – Seite 1 von 2</div>
-</div>
-
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <hr class="separator">
 
   <h2>§6 Vertraulichkeit</h2>
   <p>Beide Parteien verpflichten sich, alle im Rahmen der Zusammenarbeit bekannt gewordenen Informationen, Unterlagen und Daten vertraulich zu behandeln und nicht an Dritte weiterzugeben. Diese Pflicht bleibt auch nach Beendigung der Zusammenarbeit bestehen.</p>
@@ -475,13 +467,11 @@
 
   <h2>§10 Schlussbestimmungen</h2>
   <p>Es gilt deutsches Recht. Gerichtsstand ist Rostock, sofern rechtlich zulässig. Sollten einzelne Regelungen unwirksam sein, bleibt der Vertrag im Übrigen wirksam.</p>
-
-  <div class="page-number">Anlage 1 – Seite 2 von 2</div>
 </div>
 
-<!-- ANLAGE 2: Datenschutzerklärung (Seite 8–11) -->
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+<!-- ANLAGE 2: Datenschutzerklärung -->
+<div class="contract-section">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
   <div class="anlage-header">Anlage 2 zum Mentoring-Vertrag</div>
 
   <h1>Datenschutzerklärung</h1>
@@ -504,11 +494,7 @@
   <p><em>Welche Rechte haben Sie bezüglich Ihrer Daten?</em><br>
   Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können Sie diese Einwilligung jederzeit für die Zukunft widerrufen. Außerdem haben Sie das Recht, unter bestimmten Umständen die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen. Des Weiteren steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu.</p>
 
-  <div class="page-number">Anlage 2 – Seite 1 von 4</div>
-</div>
-
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <hr class="separator">
 
   <h2>2. Hosting</h2>
   <p><strong>Hetzner</strong></p>
@@ -533,12 +519,6 @@
 
   <p><strong>Ihre Rechte</strong></p>
   <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem steht Ihnen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu. Hierzu sowie zu weiteren Fragen zum Thema personenbezogene Daten können Sie sich jederzeit an uns wenden.</p>
-
-  <div class="page-number">Anlage 2 – Seite 2 von 4</div>
-</div>
-
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <p><strong>SSL- bzw. TLS-Verschlüsselung</strong></p>
   <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.</p>
@@ -565,12 +545,6 @@
   <p>An Anthropic werden ausschließlich übermittelt: Ihre Chatnachricht (Freitext), der bisherige Chatverlauf der aktuellen Sitzung (max. 20 Nachrichten), anonymisierte, aggregierte Finanzkennzahlen (z.&nbsp;B. Umsatz, Gewinn, Cashflow als Gesamtsummen).</p>
   <p>Es werden keine personenbezogenen Daten übermittelt. Insbesondere werden Ihr Name, Ihre E-Mail-Adresse, Ihr Firmenname, einzelne Buchungen, Rechnungen oder Kontodaten nicht an Anthropic weitergegeben.</p>
 
-  <div class="page-number">Anlage 2 – Seite 3 von 4</div>
-</div>
-
-<div class="page">
-  <img class="page-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
-
   <p><strong>Rechtsgrundlage</strong></p>
   <p>Die Verarbeitung erfolgt auf Grundlage Ihrer Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO, die Sie durch die aktive Nutzung des Chat-Assistenten erteilen. Sie können den Chat jederzeit nicht nutzen; die übrige Funktionalität der Anwendung bleibt davon unberührt.</p>
 
@@ -586,8 +560,6 @@
   <hr class="separator">
 
   <p style="font-size: 9pt; color: #8D5F4E; margin-top: 8mm;">Quelle: eRecht24 | © 2026 Finance Flow | Alexander Schack</p>
-
-  <div class="page-number">Anlage 2 – Seite 4 von 4</div>
 </div>
 
 </body>

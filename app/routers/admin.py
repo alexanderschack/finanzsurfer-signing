@@ -58,7 +58,7 @@ async def contract_create(
     startdatum: str = Form(...),
     wochen: int = Form(14),
     bonus: str = Form(""),
-    gueltig_tage: int = Form(14),
+    gueltig_tage: int = Form(3),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):

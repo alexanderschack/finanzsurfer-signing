@@ -81,7 +81,7 @@ def generate_signed_pdf(contract) -> bytes:
     except (ValueError, IndexError):
         signed_date_formatted = signed_date
 
-    signatur_path = os.path.join(assets_dir, "signatur-alex.jpg")
+    signatur_path = os.path.join(assets_dir, "signatur-alex.png")
 
     signed_block = """
     <div style="margin-top: 8mm;">

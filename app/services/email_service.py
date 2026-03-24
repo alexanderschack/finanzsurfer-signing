@@ -10,6 +10,27 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+BCC_ALEX = "alex@finanz-surfer.de"
+
+EMAIL_SIGNATURE = """
+<div style="margin-top: 24px; font-family: sans-serif; font-size: 13px; color: #1F3B4D; line-height: 1.5;">
+  <div style="border-top: 1px solid #8D5F4E; margin-bottom: 16px; width: 180px;"></div>
+  <div style="font-family: 'Libre Baskerville', Georgia, serif; font-size: 20px; color: #8D5F4E; margin-bottom: 12px;">
+    <span style="color: #C4956A;">Finanz</span><em>surfer</em>
+  </div>
+  <p style="margin: 0 0 2px;"><strong>T:</strong> +49 151 52531347</p>
+  <p style="margin: 0 0 2px;"><strong>M:</strong> <a href="mailto:alex@finanz-surfer.de" style="color: #8D5F4E;">alex@finanz-surfer.de</a></p>
+  <p style="margin: 0 0 12px;"><strong>W:</strong> <a href="https://www.finanz-surfer.de" style="color: #8D5F4E;">www.finanz-surfer.de</a></p>
+  <p style="margin: 0 0 2px;"><strong>Finance Flow | Alexander Schack</strong></p>
+  <p style="margin: 0 0 2px;">Weidengrund 76</p>
+  <p style="margin: 0 0 16px;">18059 Rostock</p>
+  <div style="font-size: 10px; color: #999; line-height: 1.4;">
+    <p style="margin: 0 0 6px;">Diese E-Mail enth&auml;lt vertrauliche und/oder rechtlich gesch&uuml;tzte Informationen. Wenn Sie nicht der richtige Adressat sind oder dieses E-Mail irrt&uuml;mlich erhalten haben, informieren Sie bitte sofort den Absender und vernichten Sie diese Mail. Das unerlaubte Kopieren sowie die unbefugte Weitergabe dieser Mail sind nicht gestattet.</p>
+    <p style="margin: 0;">This e-mail may contain confidential and/or privileged information. If you are not the intended recipient (or have received this e-mail in error) please notify the sender immediately and destroy this e-mail. Any unauthorized copying, disclosure or distribution of the material in this e-mail is strictly forbidden.</p>
+  </div>
+</div>
+"""
+
 
 def send_signing_confirmation(contract, base_url="https://sign.finanz-surfer.de", pdf_bytes=None):
     """Send confirmation email to both Alex and the client, with PDF attached."""
@@ -44,7 +65,7 @@ def send_signing_confirmation(contract, base_url="https://sign.finanz-surfer.de"
         <p>vielen Dank! Dein Mentoring-Vertrag wurde erfolgreich unterschrieben.</p>
         <p>Den unterschriebenen Vertrag findest du als PDF im Anhang dieser E-Mail.</p>
         <p>Ich freue mich auf unsere Zusammenarbeit!</p>
-        <p>Liebe Grüße,<br>Alex</p>
+        <p>Liebe Gr&uuml;&szlig;e<br>Alex</p>
     </div>
     """ % contract.vorname
 
@@ -52,13 +73,11 @@ def send_signing_confirmation(contract, base_url="https://sign.finanz-surfer.de"
                 pdf_bytes=pdf_bytes, pdf_filename=pdf_filename)
 
 
-BCC_ALEX = "alex@finanz-surfer.de"
-
-
 def _send_email(to, subject, html_body, pdf_bytes=None, pdf_filename=None):
     """Send a single email via SMTP, optionally with PDF attachment.
 
     Always BCC alex@finanz-surfer.de so Alex gets a copy of every outgoing mail.
+    Appends Alex's email signature to all outgoing HTML emails.
     """
     try:
         msg = MIMEMultipart("mixed")
@@ -66,9 +85,10 @@ def _send_email(to, subject, html_body, pdf_bytes=None, pdf_filename=None):
         msg["From"] = settings.smtp_from
         msg["To"] = to
 
-        # HTML body
+        # HTML body with signature
+        full_html = html_body + EMAIL_SIGNATURE
         html_part = MIMEMultipart("alternative")
-        html_part.attach(MIMEText(html_body, "html"))
+        html_part.attach(MIMEText(full_html, "html", "utf-8"))
         msg.attach(html_part)
 
         # PDF attachment

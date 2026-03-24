@@ -117,6 +117,17 @@
   }
   .cover-footer a { color: #8D5F4E; text-decoration: none; }
 
+  /* Background fill — covers @page margins on every printed page */
+  .page-bg {
+    position: fixed;
+    top: -20mm;
+    left: 0;
+    right: 0;
+    bottom: -15mm;
+    background: #EDE6DE;
+    z-index: -1;
+  }
+
   /* Content sections — flow naturally, Chrome paginates */
   .contract-section {
     width: 210mm;
@@ -288,6 +299,7 @@
 </style>
 </head>
 <body>
+<div class="page-bg"></div>
 
 <!-- COVER -->
 <div class="page-cover">

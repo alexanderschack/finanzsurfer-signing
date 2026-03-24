@@ -8,9 +8,19 @@
 <style>
   @page {
     size: A4;
+    margin: 20mm 0 15mm 0;
+  }
+  @page cover-page {
+    size: A4;
     margin: 0;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    background: #EDE6DE;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 
   body {
     font-family: 'Montserrat', sans-serif;
@@ -24,6 +34,7 @@
 
   /* Cover page */
   .page-cover {
+    page: cover-page;
     width: 210mm;
     height: 297mm;
     margin: 0 auto;
@@ -110,7 +121,7 @@
   .contract-section {
     width: 210mm;
     margin: 0 auto;
-    padding: 30mm 25mm 25mm 25mm;
+    padding: 10mm 25mm 10mm 25mm;
     background: #EDE6DE;
     page-break-before: always;
   }

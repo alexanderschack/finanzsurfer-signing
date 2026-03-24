@@ -25,9 +25,11 @@
   /* Every page: full A4, own padding, page break */
   .page {
     width: 210mm;
+    height: 297mm;
     margin: 0 auto;
     padding: 25mm;
     background: #EDE6DE;
+    position: relative;
     page-break-after: always;
   }
 
@@ -232,10 +234,11 @@
   .closing .name { color: #1F3B4D; font-weight: 400; font-style: italic; }
 
   .page-number {
-    text-align: right;
+    position: absolute;
+    bottom: 12mm;
+    right: 25mm;
     font-size: 9pt;
     color: #8D5F4E;
-    margin-top: 8mm;
   }
 
   .anlage-header {
@@ -440,7 +443,12 @@
   <h2>§3 Zahlungsbedingungen</h2>
   <p>Für entgeltliche Leistungen gilt der im Angebot bzw. Vertrag ausgewiesene Preis. Sofern im jeweiligen Vertrag keine abweichende Regelung getroffen wurde, ist der Betrag innerhalb von 14 Tagen nach Rechnungsstellung zur Zahlung fällig. Bei Ratenzahlung gelten die im jeweiligen Vertrag vereinbarten Beträge und Fälligkeiten. Bei kostenlosen Angeboten (z.&nbsp;B. Freebies) entfällt diese Regelung.</p>
 
-  <hr class="separator">
+  <div class="page-number">Anlage 1 – Seite 1 von 3</div>
+</div>
+
+<!-- ANLAGE 1: AGB Seite 2 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h2>§4 Widerrufsrecht</h2>
   <p>Verbraucher:innen im Sinne des § 13 BGB steht bei entgeltlichen Leistungen grundsätzlich ein Widerrufsrecht von 14 Tagen ab Vertragsschluss zu. Bei digitalen Inhalten oder Online-Programmen kann dieses vorzeitig erlöschen, wenn die Leistung vollständig erbracht wurde oder die Kund:in der sofortigen Ausführung ausdrücklich zugestimmt hat (§ 356 Abs. 4 BGB).</p>
@@ -453,12 +461,7 @@
   <p>Die Anwendung erfolgt auf eigene Verantwortung des Kunden. Auch bei korrekter Anwendung kann keine Garantie für Richtigkeit, Vollständigkeit oder die Eignung für individuelle Zwecke übernommen werden.</p>
   <p>Der Kunde trifft alle unternehmerischen und finanziellen Entscheidungen eigenverantwortlich. Eine Haftung des Anbieters für daraus resultierende wirtschaftliche, rechtliche oder sonstige Folgen ist ausgeschlossen – es sei denn, es liegt Vorsatz oder grobe Fahrlässigkeit vor.</p>
 
-  <div class="page-number">Anlage 1 – Seite 1 von 2</div>
-</div>
-
-<!-- ANLAGE 1: AGB Seite 2 -->
-<div class="page">
-  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
+  <hr class="separator">
 
   <h2>§6 Vertraulichkeit</h2>
   <p>Beide Parteien verpflichten sich, alle im Rahmen der Zusammenarbeit bekannt gewordenen Informationen, Unterlagen und Daten vertraulich zu behandeln und nicht an Dritte weiterzugeben. Diese Pflicht bleibt auch nach Beendigung der Zusammenarbeit bestehen.</p>
@@ -468,7 +471,12 @@
   <h2>§7 Nutzungsrechte</h2>
   <p>Alle Inhalte, Unterlagen und digitalen Produkte (z.&nbsp;B. Workbook, Tools, Videos), die im Rahmen eines Programms oder Produkts zur Verfügung gestellt werden, sind urheberrechtlich geschützt. Die Mentee erhält ein einfaches, nicht übertragbares Nutzungsrecht zur ausschließlich persönlichen Verwendung. Eine Weitergabe, Vervielfältigung oder öffentliche Nutzung – auch auszugsweise – ist nicht gestattet, es sei denn, es wurde schriftlich etwas anderes vereinbart.</p>
 
-  <hr class="separator">
+  <div class="page-number">Anlage 1 – Seite 2 von 3</div>
+</div>
+
+<!-- ANLAGE 1: AGB Seite 3 -->
+<div class="page">
+  <img class="section-logo" src="assets/logo-dark.png" alt="Finanzsurfer">
 
   <h2>§8 Datenschutz</h2>
   <p>Der Anbieter verarbeitet personenbezogene Daten im Rahmen der Vertragserfüllung und gesetzlicher Pflichten. Soweit digitale Tools (insb. das Finanzsurfer-Dashboard) zum Einsatz kommen, gelten die beigefügten Datenschutzbestimmungen (Anlage 2). Die Kund:in wird gebeten, diese vor Nutzung zur Kenntnis zu nehmen.</p>
@@ -483,7 +491,7 @@
   <h2>§10 Schlussbestimmungen</h2>
   <p>Es gilt deutsches Recht. Gerichtsstand ist Rostock, sofern rechtlich zulässig. Sollten einzelne Regelungen unwirksam sein, bleibt der Vertrag im Übrigen wirksam.</p>
 
-  <div class="page-number">Anlage 1 – Seite 2 von 2</div>
+  <div class="page-number">Anlage 1 – Seite 3 von 3</div>
 </div>
 
 <!-- ANLAGE 2: Datenschutz Seite 1 -->

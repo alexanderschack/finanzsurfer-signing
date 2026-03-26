@@ -88,7 +88,7 @@ async def contract_create(
         contract_html=contract_html,
         status="pending",
         created_at=now.isoformat(),
-        expires_at=(now + timedelta(days=gueltig_tage)).isoformat(),
+        expires_at=(now + timedelta(days=gueltig_tage)).replace(hour=23, minute=59, second=59).isoformat(),
     )
     db.add(contract)
     db.commit()

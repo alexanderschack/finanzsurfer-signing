@@ -22,6 +22,7 @@ class Contract(Base):
     betrag_gesamt: Mapped[int] = mapped_column(Integer)
     raten: Mapped[int] = mapped_column(Integer, default=0)
     rate: Mapped[int] = mapped_column(Integer, default=0)
+    raten_plan: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
     startdatum: Mapped[str] = mapped_column(String(10))
     wochen: Mapped[int] = mapped_column(Integer, default=14)
     bonus: Mapped[Optional[str]] = mapped_column(String(300), nullable=True)

@@ -64,16 +64,53 @@ def zahlungsblock_raten(raten, rate, start_iso):
     ) % (raten, format_betrag(rate), erster, rest)
 
 
+def zahlungsblock_staffel(raten_betraege, start_iso):
+    """Gestaffelter Ratenplan: Liste von monatlichen Beträgen.
+
+    raten_betraege: List[int] — z.B. [400, 400, 600, 600, 800, 800]
+    """
+    d = datetime.strptime(start_iso, "%Y-%m-%d")
+    start_monat = d.month
+    start_jahr = d.year
+
+    zeilen = []
+    for i, betrag in enumerate(raten_betraege):
+        m = (start_monat - 1 + i) % 12 + 1
+        j = start_jahr + (start_monat - 1 + i) // 12
+        zeilen.append(
+            '<li><strong>%s %d:</strong> %s EUR brutto</li>'
+            % (MONATE_DE[m], j, format_betrag(betrag))
+        )
+
+    raten_liste = "\n".join(zeilen)
+
+    return (
+        '<p>Die Zahlung erfolgt in <span class="highlight">%d monatlichen '
+        'Raten</span> mit gestaffelten Beträgen (inkl. gesetzl. USt.):</p>'
+        '<ul style="margin: 4mm 0 4mm 6mm;">\n%s\n</ul>'
+        '<p>Die jeweilige Rate wird im genannten Monat in Rechnung gestellt. '
+        'Zahlungsziel: jeweils <span class="highlight">14 Tage</span> '
+        'nach Rechnungsstellung.</p>'
+    ) % (len(raten_betraege), raten_liste)
+
+
 def render_contract_html(
     vorname, nachname, strasse, plz_ort, email, mobil,
-    betrag_gesamt, raten, rate, startdatum, wochen, bonus
+    betrag_gesamt, raten, rate, startdatum, wochen, bonus,
+    raten_plan=None,
 ):
-    """Render the full contract HTML with all placeholders replaced."""
+    """Render the full contract HTML with all placeholders replaced.
+
+    raten_plan: optional list of int — wenn gesetzt, wird der Staffel-Block
+    statt des gleichmäßigen Ratenblocks gerendert.
+    """
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         html = f.read()
 
     # Payment block
-    if raten > 0 and rate > 0:
+    if raten_plan:
+        zahlungs_block = zahlungsblock_staffel(raten_plan, startdatum)
+    elif raten > 0 and rate > 0:
         zahlungs_block = zahlungsblock_raten(raten, rate, startdatum)
     else:
         zahlungs_block = zahlungsblock_einmal()

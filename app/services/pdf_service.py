@@ -5,9 +5,10 @@ import re
 import tempfile
 import subprocess
 import logging
+import json
 from app.services.contract_service import (
     format_datum, format_betrag,
-    zahlungsblock_raten, zahlungsblock_einmal,
+    zahlungsblock_raten, zahlungsblock_einmal, zahlungsblock_staffel,
     MONATE_DE, TEMPLATE_PATH,
 )
 
@@ -40,7 +41,16 @@ def generate_signed_pdf(contract) -> bytes:
         html = f.read()
 
     # Payment block
-    if contract.raten > 0 and contract.rate > 0:
+    raten_plan = None
+    if contract.raten_plan:
+        try:
+            raten_plan = json.loads(contract.raten_plan)
+        except (ValueError, TypeError):
+            raten_plan = None
+
+    if raten_plan:
+        zahlungs_block = zahlungsblock_staffel(raten_plan, contract.startdatum)
+    elif contract.raten > 0 and contract.rate > 0:
         zahlungs_block = zahlungsblock_raten(
             contract.raten, contract.rate, contract.startdatum
         )

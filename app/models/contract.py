@@ -24,7 +24,7 @@ class Contract(Base):
     rate: Mapped[int] = mapped_column(Integer, default=0)
     raten_plan: Mapped[Optional[str]] = mapped_column(String(200), nullable=True)
     startdatum: Mapped[str] = mapped_column(String(10))
-    wochen: Mapped[int] = mapped_column(Integer, default=14)
+    wochen: Mapped[int] = mapped_column(Integer, default=12)
     bonus: Mapped[Optional[str]] = mapped_column(String(300), nullable=True)
 
     # Rendered HTML (immutable snapshot)

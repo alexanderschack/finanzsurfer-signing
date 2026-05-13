@@ -56,7 +56,7 @@ async def contract_create(
     raten: int = Form(0),
     rate: int = Form(0),
     startdatum: str = Form(...),
-    wochen: int = Form(14),
+    wochen: int = Form(12),
     bonus: str = Form(""),
     gueltig_tage: int = Form(3),
     db: Session = Depends(get_db),

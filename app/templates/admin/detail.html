@@ -34,7 +34,7 @@
   <div class="card">
     <h2>Konditionen</h2>
     <p>
-      <strong>Betrag:</strong> {{ "{:,.0f}".format(contract.betrag_gesamt).replace(",", ".") }} EUR brutto<br>
+      <strong>Betrag:</strong> {{ "{:,.0f}".format(contract.betrag_gesamt).replace(",", ".") }} EUR netto<br>
       {% if contract.raten > 0 %}
         <strong>Zahlung:</strong> {{ contract.raten }} Raten à {{ "{:,.0f}".format(contract.rate).replace(",", ".") }} EUR<br>
       {% else %}

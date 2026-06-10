@@ -56,7 +56,7 @@ def zahlungsblock_raten(raten, rate, start_iso):
 
     return (
         '<p>Die Zahlung erfolgt in <span class="highlight">%d monatlichen '
-        'Raten à %s EUR brutto</span> (inkl. gesetzl. USt.). '
+        'Raten à %s EUR netto</span> (zzgl. gesetzl. USt.). '
         'Die erste Rate wird im <span class="highlight">%s</span> in '
         'Rechnung gestellt, die weiteren Raten jeweils im Folgemonat '
         '(%s). Zahlungsziel: jeweils '
@@ -78,7 +78,7 @@ def zahlungsblock_staffel(raten_betraege, start_iso):
         m = (start_monat - 1 + i) % 12 + 1
         j = start_jahr + (start_monat - 1 + i) // 12
         zeilen.append(
-            '<li><strong>%s %d:</strong> %s EUR brutto</li>'
+            '<li><strong>%s %d:</strong> %s EUR netto</li>'
             % (MONATE_DE[m], j, format_betrag(betrag))
         )
 
@@ -86,7 +86,7 @@ def zahlungsblock_staffel(raten_betraege, start_iso):
 
     return (
         '<p>Die Zahlung erfolgt in <span class="highlight">%d monatlichen '
-        'Raten</span> mit gestaffelten Beträgen (inkl. gesetzl. USt.):</p>'
+        'Raten</span> mit gestaffelten Beträgen (zzgl. gesetzl. USt.):</p>'
         '<ul style="margin: 4mm 0 4mm 6mm;">\n%s\n</ul>'
         '<p>Die jeweilige Rate wird im genannten Monat in Rechnung gestellt. '
         'Zahlungsziel: jeweils <span class="highlight">14 Tage</span> '
